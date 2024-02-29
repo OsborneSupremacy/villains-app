@@ -1,4 +1,9 @@
-﻿namespace villains_lambda_api;
+﻿
+
+using Amazon.DynamoDBv2.DataModel;
+using Villains.Lambda.Api.Services;
+
+namespace Villains.Lambda.Api;
 
 public class Startup
 {
@@ -12,6 +17,16 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container
     public void ConfigureServices(IServiceCollection services)
     {
+        // AWS stuff
+        AmazonDynamoDBClient dynamoClient = new();
+        DynamoDBContext dbContext = new(dynamoClient);
+        
+        services.AddSingleton<IAmazonDynamoDB>(dynamoClient);
+        services.AddSingleton<IDynamoDBContext>(dbContext);
+        services.AddSingleton<IAmazonS3>(new AmazonS3Client());
+
+        services.AddScoped<VillainsService>();
+        
         services.AddControllers();
     }
 
@@ -22,7 +37,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-
+        
         app.UseHttpsRedirection();
 
         app.UseRouting();

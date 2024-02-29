@@ -10,8 +10,12 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <!-- Generate ready to run images during publishing to improve cold start time. -->
         <PublishReadyToRun>true</PublishReadyToRun>
+        <RootNamespace>Villains.Lambda.Api</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.0.0"/>
+        <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.301.16" />
+        <PackageReference Include="AWSSDK.S3" Version="3.7.305.29" />
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
 </Project>

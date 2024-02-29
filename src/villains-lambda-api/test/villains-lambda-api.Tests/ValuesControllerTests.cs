@@ -1,12 +1,9 @@
 using System.Text.Json;
-using Xunit;
-using Amazon.Lambda.Core;
-using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.TestUtilities;
+using Xunit;
 
-
-
-namespace villains_lambda_api.Tests;
+namespace Villains.Lambda.Api.Tests;
 
 public class ValuesControllerTests
 {

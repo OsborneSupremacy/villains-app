@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <IsTestProject>true</IsTestProject>
     <EnableDefaultContentItems>False</EnableDefaultContentItems>
+    <RootNamespace>Villains.Lambda.Api.Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Content Include=".\SampleRequests\*">

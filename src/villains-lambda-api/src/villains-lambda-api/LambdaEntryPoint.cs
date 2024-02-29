@@ -1,4 +1,4 @@
-namespace villains_lambda_api;
+namespace Villains.Lambda.Api;
 
 /// <summary>
 /// This class extends from APIGatewayProxyFunction which contains the method FunctionHandlerAsync which is the 

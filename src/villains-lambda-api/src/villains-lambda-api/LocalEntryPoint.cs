@@ -1,16 +1,14 @@
-﻿namespace villains_lambda_api;
+﻿namespace Villains.Lambda.Api;
 
 /// <summary>
 /// The Main function can be used to run the ASP.NET Core application locally using the Kestrel webserver.
 /// </summary>
-public class LocalEntryPoint
+public static class LocalEntryPoint
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
+    public static async Task Main(string[] args) =>
+        await CreateHostBuilder(args).Build().RunAsync();
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 }

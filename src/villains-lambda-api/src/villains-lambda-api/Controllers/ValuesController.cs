@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace villains_lambda_api.Controllers;
+namespace Villains.Lambda.Api.Controllers;
 
 [Route("api/[controller]")]
 public class ValuesController : ControllerBase
