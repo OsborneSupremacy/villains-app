@@ -11,6 +11,11 @@ public class VillainsController : Controller
         _villainsService = villainsService ?? throw new ArgumentNullException(nameof(villainsService));
     }
 
+    /// <summary>
+    /// List all villains.
+    /// </summary>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("villains")]
     [ProducesResponseType(typeof(List<Villain>), StatusCodes.Status200OK)]
@@ -19,6 +24,12 @@ public class VillainsController : Controller
             .GetAllAsync(ct)
             .ToListAsync(ct);
     
+    /// <summary>
+    /// Get a particular villain by id. 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("villain/{id}")]
     [ProducesResponseType(typeof(Villain), StatusCodes.Status200OK)]
@@ -35,6 +46,13 @@ public class VillainsController : Controller
         };
     }
     
+    /// <summary>
+    /// Create a new villain.
+    /// </summary>
+    /// <param name="newVillain"></param>
+    /// <param name="ct"></param>
+    /// <param name="validator"></param>
+    /// <returns></returns>
     [HttpPost]
     [Route("villain")]
     [ProducesResponseType(typeof(CreatedAtRouteResult), StatusCodes.Status201Created)]
@@ -54,6 +72,13 @@ public class VillainsController : Controller
         return new CreatedAtRouteResult("villain", new { id = villainId }, villain);
     }
     
+    /// <summary>
+    /// Update a villain.
+    /// </summary>
+    /// <param name="villain"></param>
+    /// <param name="ct"></param>
+    /// <param name="validator"></param>
+    /// <returns></returns>
     [HttpPut]
     [Route("villain/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

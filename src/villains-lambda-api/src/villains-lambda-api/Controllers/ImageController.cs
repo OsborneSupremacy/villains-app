@@ -11,6 +11,12 @@ public class ImageController : Controller
         _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
     }
     
+    /// <summary>
+    /// Get an image by name.
+    /// </summary>
+    /// <param name="imageName"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("image/{imageName}")]
     public async Task<FileStreamResult> Get([FromRoute]string imageName, CancellationToken ct)
@@ -19,6 +25,12 @@ public class ImageController : Controller
         return File(result.Stream, $"image/{result.Extension}");
     }
     
+    /// <summary>
+    /// Upload an image.
+    /// </summary>
+    /// <param name="image"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     [HttpPost]
     [Route("image")]
     [RequestSizeLimit(20000000)]
