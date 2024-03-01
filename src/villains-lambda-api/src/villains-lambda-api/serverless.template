@@ -13,9 +13,61 @@
         "CodeUri": "",
         "MemorySize": 512,
         "Timeout": 30,
-        "Role": null,
+        "Role": {
+          "Fn::GetAtt": [
+            "AspNetCoreExecutionRole",
+            "Arn"
+          ]
+        },
         "Policies": [
-          "AWSLambda_FullAccess"
+          "AWSLambda_FullAccess",
+          "IAMPolicy" :
+          {
+            "Type": "AWS::IAM::Policy",
+            "Properties" :
+            {
+              "PolicyName": "DynamoDBAccessPolicy",
+              "PolicyDocument":
+              {
+                "Version": "2012-10-17",
+                "Statement":
+                [
+                  {
+                    "Effect": "Allow",
+                    "Action":
+                    [
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:UpdateItem"
+                    ],
+                    "Resource": "arn:aws:dynamodb:region:account-id:table/villains"
+                  },
+                ]
+              }
+            }
+          },
+          "IAMPolicy" :
+          {
+            "Type": "AWS::IAM::Policy",
+            "Properties" :
+            {
+              "PolicyName": "LambdaS3AccessPolicy",
+              "PolicyDocument":
+              {
+                "Version": "2012-10-17",
+                "Statement":
+                [
+                  "Effect": "Allow",
+                  "Action":
+                  [
+                    "s3:GetObject",
+                    "s3:PutObject"
+                  ],
+                  "Resource": "arn:aws:s3:::villains-images/*"
+              }
+            }
+          }
         ],
         "Events": {
           "ProxyResource": {
