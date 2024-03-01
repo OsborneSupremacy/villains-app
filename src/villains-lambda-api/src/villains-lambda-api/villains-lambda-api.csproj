@@ -18,7 +18,15 @@
         <PackageReference Include="AWSSDK.S3" Version="3.7.305.29" />
         <PackageReference Include="FluentResults" Version="3.15.2" />
         <PackageReference Include="FluentValidation" Version="11.9.0" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Resources\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Resources\notfound.jfif" />
+      <EmbeddedResource Include="Resources\notfound.jfif" />
     </ItemGroup>
 </Project>

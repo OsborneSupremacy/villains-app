@@ -1,9 +1,8 @@
-
 namespace Villains.Lambda.Api.Controllers;
 
 [ApiController]
 [Route("api/")]
-public class VillainsController
+public class VillainsController : Controller
 {
     private readonly VillainsService _villainsService;
 
@@ -24,7 +23,7 @@ public class VillainsController
     [Route("villain/{id}")]
     [ProducesResponseType(typeof(Villain), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Villain>> Get(string id, CancellationToken ct)
+    public async Task<ActionResult<Villain>> Get([FromRoute]string id, CancellationToken ct)
     {
         var result = await _villainsService.GetAsync(id, ct);
         return result.IsSuccess switch 

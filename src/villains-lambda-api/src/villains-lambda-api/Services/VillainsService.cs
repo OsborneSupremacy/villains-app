@@ -35,41 +35,50 @@ public class VillainsService
     
     public async Task<Result<Villain>> GetAsync(string id, CancellationToken ct = default)
     {
-        var response = await _dynamoDbClient.GetItemAsync(new()
+        try
         {
-            TableName = "villains",
-            Key = new()
+            var response = await _dynamoDbClient.GetItemAsync(new()
             {
-                ["id"] = new AttributeValue { S = id }
-            }
-        }, ct);
-        
-        if (response.Item is null)
-            return Result.Fail(new ExceptionalError(new KeyNotFoundException()));
-
-        return new Villain
+                TableName = "villains",
+                Key = new()
+                {
+                    ["id"] = new AttributeValue { S = id }
+                }
+            }, ct);
+            
+            return new Villain
+            {
+                Id = response.Item["id"].S,
+                Name = response.Item["name"].S,
+                Powers = response.Item["powers"].S,
+                ImageName = response.Item["imageName"].S,
+                ButtonText = response.Item["buttonText"].S,
+                Saying = response.Item["saying"].S
+            };
+        } catch (KeyNotFoundException ex)
         {
-            Id = response.Item["id"].S,
-            Name = response.Item["name"].S,
-            Powers = response.Item["powers"].S,
-            ImageName = response.Item["imageName"].S,
-            ButtonText = response.Item["buttonText"].S,
-            Saying = response.Item["saying"].S
-        };
+            return Result.Fail(new ExceptionalError(ex));
+        }
     }
     
     public async Task<bool> ExistsAsync(string id, CancellationToken ct = default)
     {
-        var response = await _dynamoDbClient.GetItemAsync(new()
+        try
         {
-            TableName = "villains",
-            Key = new()
+            await _dynamoDbClient.GetItemAsync(new()
             {
-                ["id"] = new AttributeValue { S = id }
-            }
-        }, ct);
-
-        return response.Item is not null;
+                TableName = "villains",
+                Key = new()
+                {
+                    ["id"] = new AttributeValue { S = id }
+                }
+            }, ct);
+            return true;
+        }
+        catch (KeyNotFoundException)
+        {
+            return false;
+        }
     }
     
     /// <summary>

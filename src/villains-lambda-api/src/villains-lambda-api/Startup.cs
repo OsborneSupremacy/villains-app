@@ -28,6 +28,7 @@ public class Startup
         services.AddSingleton<IAmazonS3>(new AmazonS3Client());
 
         services.AddScoped<VillainsService>();
+        services.AddScoped<ImageService>();
         
         // don't want to use assembly scanning (`AddValidatorsFromAssemblyContaining`) for performance reasons
         services.AddScoped<IValidator<NewVillain>, NewVillainValidator>();
