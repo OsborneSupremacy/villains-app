@@ -1,7 +1,5 @@
 using System.Runtime.CompilerServices;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using Villains.Lambda.Api.Models;
 
 namespace Villains.Lambda.Api.Services;
 
@@ -9,12 +7,9 @@ public class VillainsService
 {
     private readonly IAmazonDynamoDB _dynamoDbClient;
     
-    private readonly IDynamoDBContext _dbContext;
-    
-    public VillainsService(IAmazonDynamoDB dynamoDbClient, IDynamoDBContext dbContext)
+    public VillainsService(IAmazonDynamoDB dynamoDbClient)
     {
         _dynamoDbClient = dynamoDbClient;
-        _dbContext = dbContext;
     }
 
     public async IAsyncEnumerable<Villain> GetAllAsync(
@@ -50,7 +45,7 @@ public class VillainsService
         }, cancellationToken);
 
         if (response.Item is null)
-            return Result.Fail("Not found");
+            return Result.Fail(new ExceptionalError(new KeyNotFoundException()));
 
         return new Villain
         {
@@ -61,5 +56,65 @@ public class VillainsService
             ButtonText = response.Item["buttonText"].S,
             Saying = response.Item["saying"].S
         };
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="newVillain"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>The ID of the new Villain</returns>
+    public async Task<string> CreateAsync(NewVillain newVillain, CancellationToken cancellationToken = default)
+    {
+        var id = ObjectIdGenerator.New();
+        
+        var request = new PutItemRequest
+        {
+            TableName = "villains",
+            Item = new Dictionary<string, AttributeValue>
+            {
+                { "id", new AttributeValue {S = id} },
+                { "name", new AttributeValue {S = newVillain.Name}},
+                { "powers", new AttributeValue {S = newVillain.Powers}},
+                { "imageName", new AttributeValue {S = newVillain.ImageName}},
+                { "buttonText", new AttributeValue {S = newVillain.ButtonText}},
+                { "saying", new AttributeValue {S = newVillain.Saying }}
+            }
+        };
+        
+        await _dynamoDbClient.PutItemAsync(request, cancellationToken);
+        return id;
+    }
+    
+    public async Task<Result> UpdateAsync(Villain villain, CancellationToken cancellationToken = default)
+    {
+        var request = new UpdateItemRequest
+        {
+            TableName = "villains",
+            Key = new()
+            {
+                ["id"] = new AttributeValue { S = villain.Id }
+            },
+            ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+            {
+                {":n", new AttributeValue { S = villain.Name }},
+                {":p", new AttributeValue { S = villain.Powers }},
+                {":i", new AttributeValue { S = villain.ImageName }},
+                {":b", new AttributeValue { S = villain.ButtonText }},
+                {":s", new AttributeValue { S = villain.Saying }}
+            },
+            UpdateExpression = "SET #n = :n, #p = :p, #i = :i, #b = :b, #s = :s",
+            ExpressionAttributeNames = new Dictionary<string, string>
+            {
+                {"#n", "name"},
+                {"#p", "powers"},
+                {"#i", "imageName"},
+                {"#b", "buttonText"},
+                {"#s", "saying"}
+            }
+        };
+        
+        await _dynamoDbClient.UpdateItemAsync(request, cancellationToken);
+        return Result.Ok();
     }
 }
