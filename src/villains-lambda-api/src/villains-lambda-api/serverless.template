@@ -5,70 +5,88 @@
   "Parameters": {},
   "Conditions": {},
   "Resources": {
+    "VillainsLambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": "VillainsLambdaExecutionRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "VillainsLambdaBasicExecutionPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Scan",
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:region:account-id:table/villains"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject"
+                  ],
+                  "Resource": "arn:aws:s3:::villains-images/*"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "VillainsLambdaFullAccess",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:*",
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "Handler": "villains-lambda-api::villains_lambda_api.LambdaEntryPoint::FunctionHandlerAsync",
+        "Handler": "villains-lambda-api::Villains.Lambda.Api.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnet8",
         "CodeUri": "",
         "MemorySize": 512,
         "Timeout": 30,
         "Role": {
           "Fn::GetAtt": [
-            "AspNetCoreExecutionRole",
+            "VillainsLambdaExecutionRole",
             "Arn"
           ]
         },
-        "Policies": [
-          "AWSLambda_FullAccess",
-          "IAMPolicy" :
-          {
-            "Type": "AWS::IAM::Policy",
-            "Properties" :
-            {
-              "PolicyName": "DynamoDBAccessPolicy",
-              "PolicyDocument":
-              {
-                "Version": "2012-10-17",
-                "Statement":
-                [
-                  {
-                    "Effect": "Allow",
-                    "Action":
-                    [
-                      "dynamodb:Scan",
-                      "dynamodb:GetItem",
-                      "dynamodb:PutItem",
-                      "dynamodb:UpdateItem"
-                    ],
-                    "Resource": "arn:aws:dynamodb:region:account-id:table/villains"
-                  },
-                ]
-              }
-            }
-          },
-          "IAMPolicy" :
-          {
-            "Type": "AWS::IAM::Policy",
-            "Properties" :
-            {
-              "PolicyName": "LambdaS3AccessPolicy",
-              "PolicyDocument":
-              {
-                "Version": "2012-10-17",
-                "Statement":
-                [
-                  "Effect": "Allow",
-                  "Action":
-                  [
-                    "s3:GetObject",
-                    "s3:PutObject"
-                  ],
-                  "Resource": "arn:aws:s3:::villains-images/*"
-              }
-            }
-          }
-        ],
         "Events": {
           "ProxyResource": {
             "Type": "Api",

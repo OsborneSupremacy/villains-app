@@ -23,24 +23,24 @@ public class Startup
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Villains.Lambda.Api", Version = "v1" });
-            
+
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
-        
+
         // AWS stuff
         AmazonDynamoDBClient dynamoClient = new();
-        
+
         services.AddSingleton<IAmazonDynamoDB>(dynamoClient);
         services.AddSingleton<IAmazonS3>(new AmazonS3Client());
 
         services.AddScoped<VillainsService>();
         services.AddScoped<ImageService>();
-        
+
         // don't want to use assembly scanning (`AddValidatorsFromAssemblyContaining`) for performance reasons
         services.AddScoped<IValidator<NewVillain>, NewVillainValidator>();
         services.AddScoped<IValidator<Villain>, VillainValidator>();
-        
+
         services.AddControllers();
     }
 
@@ -57,7 +57,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        
+
         app.UseHttpsRedirection();
 
         app.UseRouting();
@@ -67,6 +67,11 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+            endpoints.MapGet("/health", async context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status200OK;
+                await context.Response.WriteAsync("Healthy");
+            });
         });
     }
 }
