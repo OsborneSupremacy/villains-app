@@ -1,7 +1,4 @@
-﻿
-
-using Amazon.DynamoDBv2.DataModel;
-using Villains.Lambda.Api.Services;
+﻿using Microsoft.OpenApi.Models;
 
 namespace Villains.Lambda.Api;
 
@@ -17,15 +14,24 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container
     public void ConfigureServices(IServiceCollection services)
     {
+        // Swagger
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Villains.Lambda.Api", Version = "v1" });
+        });
+        
         // AWS stuff
         AmazonDynamoDBClient dynamoClient = new();
-        DynamoDBContext dbContext = new(dynamoClient);
         
         services.AddSingleton<IAmazonDynamoDB>(dynamoClient);
-        services.AddSingleton<IDynamoDBContext>(dbContext);
         services.AddSingleton<IAmazonS3>(new AmazonS3Client());
 
         services.AddScoped<VillainsService>();
+        
+        // don't want to use assembly scanning (`AddValidatorsFromAssemblyContaining`) for performance reasons
+        services.AddScoped<IValidator<NewVillain>, NewVillainValidator>();
+        services.AddScoped<IValidator<Villain>, VillainValidator>();
         
         services.AddControllers();
     }
@@ -36,6 +42,8 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
         
         app.UseHttpsRedirection();
@@ -47,11 +55,6 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapGet("/",
-                async context =>
-                {
-                    await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
-                });
         });
     }
 }

@@ -13,13 +13,13 @@ public class VillainsService
     }
 
     public async IAsyncEnumerable<Villain> GetAllAsync(
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
+        [EnumeratorCancellation] CancellationToken ct = default
         )
     {
         var response = await _dynamoDbClient.ScanAsync(new()
         {
             TableName = "villains"
-        }, cancellationToken);
+        }, ct);
 
         foreach (var villain in response.Items.Select(item => new Villain
              {
@@ -33,7 +33,7 @@ public class VillainsService
             yield return villain;
     }
     
-    public async Task<Result<Villain>> GetAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<Result<Villain>> GetAsync(string id, CancellationToken ct = default)
     {
         var response = await _dynamoDbClient.GetItemAsync(new()
         {
@@ -42,8 +42,8 @@ public class VillainsService
             {
                 ["id"] = new AttributeValue { S = id }
             }
-        }, cancellationToken);
-
+        }, ct);
+        
         if (response.Item is null)
             return Result.Fail(new ExceptionalError(new KeyNotFoundException()));
 
@@ -58,13 +58,27 @@ public class VillainsService
         };
     }
     
+    public async Task<bool> ExistsAsync(string id, CancellationToken ct = default)
+    {
+        var response = await _dynamoDbClient.GetItemAsync(new()
+        {
+            TableName = "villains",
+            Key = new()
+            {
+                ["id"] = new AttributeValue { S = id }
+            }
+        }, ct);
+
+        return response.Item is not null;
+    }
+    
     /// <summary>
     /// 
     /// </summary>
     /// <param name="newVillain"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="ct"></param>
     /// <returns>The ID of the new Villain</returns>
-    public async Task<string> CreateAsync(NewVillain newVillain, CancellationToken cancellationToken = default)
+    public async Task<string> CreateAsync(NewVillain newVillain, CancellationToken ct = default)
     {
         var id = ObjectIdGenerator.New();
         
@@ -82,11 +96,11 @@ public class VillainsService
             }
         };
         
-        await _dynamoDbClient.PutItemAsync(request, cancellationToken);
+        await _dynamoDbClient.PutItemAsync(request, ct);
         return id;
     }
     
-    public async Task<Result> UpdateAsync(Villain villain, CancellationToken cancellationToken = default)
+    public async Task<Result> UpdateAsync(Villain villain, CancellationToken ct = default)
     {
         var request = new UpdateItemRequest
         {
@@ -114,7 +128,7 @@ public class VillainsService
             }
         };
         
-        await _dynamoDbClient.UpdateItemAsync(request, cancellationToken);
+        await _dynamoDbClient.UpdateItemAsync(request, ct);
         return Result.Ok();
     }
 }

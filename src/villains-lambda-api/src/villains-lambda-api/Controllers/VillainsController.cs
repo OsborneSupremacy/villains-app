@@ -15,18 +15,18 @@ public class VillainsController
     [HttpGet]
     [Route("villains")]
     [ProducesResponseType(typeof(List<Villain>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<Villain>>> Get(CancellationToken cancellationToken) =>
+    public async Task<ActionResult<List<Villain>>> Get(CancellationToken ct) =>
         await _villainsService
-            .GetAllAsync(cancellationToken)
-            .ToListAsync(cancellationToken);
+            .GetAllAsync(ct)
+            .ToListAsync(ct);
     
     [HttpGet]
     [Route("villain/{id}")]
     [ProducesResponseType(typeof(Villain), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Villain>> Get(string id, CancellationToken cancellationToken)
+    public async Task<ActionResult<Villain>> Get(string id, CancellationToken ct)
     {
-        var result = await _villainsService.GetAsync(id, cancellationToken);
+        var result = await _villainsService.GetAsync(id, ct);
         return result.IsSuccess switch 
         {
             true =>  result.Value,
@@ -40,10 +40,18 @@ public class VillainsController
     [Route("villain")]
     [ProducesResponseType(typeof(CreatedAtRouteResult), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Villain>> Create(NewVillain newVillain, CancellationToken cancellationToken)
+    public async Task<ActionResult<Villain>> Create(
+        NewVillain newVillain,
+        CancellationToken ct,
+        [FromServices] IValidator<NewVillain> validator
+        )
     {
-        var villainId = await _villainsService.CreateAsync(newVillain, cancellationToken);
-        var villain = await _villainsService.GetAsync(villainId, cancellationToken);
+        var validationResult = await validator.ValidateAsync(newVillain, ct);
+        if (!validationResult.IsValid)
+            return new BadRequestObjectResult(validationResult.Errors);
+        
+        var villainId = await _villainsService.CreateAsync(newVillain, ct);
+        var villain = await _villainsService.GetAsync(villainId, ct);
         return new CreatedAtRouteResult("villain", new { id = villainId }, villain);
     }
     
@@ -52,13 +60,21 @@ public class VillainsController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Villain villain, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(
+        Villain villain,
+        CancellationToken ct,
+        [FromServices] IValidator<Villain> validator
+        )
     {
-        var current = await _villainsService.GetAsync(villain.Id, cancellationToken);
-        if (!current.IsSuccess)
+        var validationResult = await validator.ValidateAsync(villain, ct);
+        if (!validationResult.IsValid)
+            return new BadRequestObjectResult(validationResult.Errors);        
+        
+        var exists = await _villainsService.ExistsAsync(villain.Id, ct);
+        if (!exists)
             return new NotFoundResult();
         
-        var result = await _villainsService.UpdateAsync(villain, cancellationToken);
+        var result = await _villainsService.UpdateAsync(villain, ct);
 
         return result.IsSuccess switch
         {

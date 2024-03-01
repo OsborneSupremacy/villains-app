@@ -1,6 +1,6 @@
 namespace Villains.Lambda.Api.Services;
 
-public static class ObjectIdGenerator
+internal static class ObjectIdGenerator
 {
     public static string New()
     {
@@ -8,7 +8,7 @@ public static class ObjectIdGenerator
         Random random = new();
 
         // Generate 12 random bytes
-        byte[] randomBytes = new byte[12];
+        var randomBytes = new byte[12];
         random.NextBytes(randomBytes);
 
         // Convert the bytes to a hexadecimal string
