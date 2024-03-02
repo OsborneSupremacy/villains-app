@@ -7,12 +7,12 @@ namespace Villains.Lambda.Api.Services;
 public class ImageService
 {
     private readonly IAmazonS3 _s3Client;
-    
+
     public ImageService(IAmazonS3 s3Client)
     {
         _s3Client = s3Client ?? throw new ArgumentNullException(nameof(s3Client));
     }
-    
+
     private readonly HashSet<string> _fileExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
         ".apng",
@@ -27,7 +27,7 @@ public class ImageService
         ".bmp",
         ".tiff"
     };
-    
+
     public async Task<GetImageFileResponse> GetImageAsync(string imageName)
     {
         var request = new GetObjectRequest
@@ -39,15 +39,15 @@ public class ImageService
         try
         {
             var response = await _s3Client.GetObjectAsync(request);
-        
+
             if (response.HttpStatusCode != HttpStatusCode.OK)
                 return await GetNotFoundImageAsync();
-        
+
             return new GetImageFileResponse
             {
                 Stream = response.ResponseStream,
-                Extension = Path.GetExtension(imageName)
-            };        
+                MimeType = $"image/{Path.GetExtension(imageName)[1..]}"
+            };
         } catch (AmazonS3Exception ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
             return await GetNotFoundImageAsync();
@@ -63,26 +63,26 @@ public class ImageService
         return Task.FromResult(new GetImageFileResponse
         {
             Stream = stream!,
-            Extension = ".jfif"
+            MimeType = ".jfif"
         });
     }
-    
+
     public async Task<Result<UploadImageResponse>> UploadImageAsync(IFormFile image, CancellationToken ct)
     {
         var ext = Path.GetExtension(image.FileName);
 
         if (!_fileExtensions.Contains(ext))
             return Result.Fail(new ExceptionalError(new InvalidOperationException()));
-        
+
         var newFileName = Guid.NewGuid() + ext;
-        
+
         var request = new PutObjectRequest
         {
             BucketName = "villains-images",
             Key = newFileName,
             InputStream = image.OpenReadStream()
         };
-        
+
         await _s3Client.PutObjectAsync(request, ct);
         return new UploadImageResponse
         {

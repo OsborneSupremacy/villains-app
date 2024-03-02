@@ -5,12 +5,12 @@ namespace Villains.Lambda.Api.Controllers;
 public class ImageController : Controller
 {
     private readonly ImageService _imageService;
-    
+
     public ImageController(ImageService imageService)
     {
         _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
     }
-    
+
     /// <summary>
     /// Get an image by name.
     /// </summary>
@@ -22,9 +22,9 @@ public class ImageController : Controller
     public async Task<FileStreamResult> Get([FromRoute]string imageName, CancellationToken ct)
     {
         var result = await _imageService.GetImageAsync(imageName);
-        return File(result.Stream, $"image/{result.Extension}");
+        return File(result.Stream, result.MimeType);
     }
-    
+
     /// <summary>
     /// Upload an image.
     /// </summary>
@@ -41,15 +41,15 @@ public class ImageController : Controller
     {
         if (image is null)
             return new BadRequestResult();
-        
+
         var result = await _imageService.UploadImageAsync(image, ct);
-        
+
         return result.IsSuccess switch
         {
             true => new OkObjectResult(result.Value),
             false => result.HasException<InvalidOperationException>()
                 ? new StatusCodeResult(StatusCodes.Status415UnsupportedMediaType)
-                : new StatusCodeResult(StatusCodes.Status500InternalServerError)    
+                : new StatusCodeResult(StatusCodes.Status500InternalServerError)
         };
     }
 }
