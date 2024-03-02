@@ -44,7 +44,7 @@
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem"
                   ],
-                  "Resource": "arn:aws:dynamodb:region:account-id:table/villains"
+                  "Resource": "arn:aws:dynamodb:*:*:table/villains"
                 },
                 {
                   "Effect": "Allow",
