@@ -1,12 +1,22 @@
+using Microsoft.Net.Http.Headers;
+
 namespace Villains.Lambda.Api.Controllers;
 
+/// <summary>
+/// A controller for managing images.
+/// </summary>
 [ApiController]
 [Route("api/")]
 public class ImageController : Controller
 {
-    private readonly ImageService _imageService;
+    private readonly IImageService _imageService;
 
-    public ImageController(ImageService imageService)
+    /// <summary>
+    /// Constructor for the image controller.
+    /// </summary>
+    /// <param name="imageService"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public ImageController(IImageService imageService)
     {
         _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
     }
@@ -19,10 +29,14 @@ public class ImageController : Controller
     /// <returns></returns>
     [HttpGet]
     [Route("image/{imageName}")]
-    public async Task<FileStreamResult> Get([FromRoute]string imageName, CancellationToken ct)
+    public async Task<FileContentResult> Get([FromRoute]string imageName, CancellationToken ct)
     {
-        var result = await _imageService.GetImageAsync(imageName);
-        return File(result.Stream, result.MimeType);
+        var result = await _imageService.GetImageAsync(imageName, ct);
+
+        return new FileContentResult(result.Data, new MediaTypeHeaderValue(result.MimeType))
+        {
+            FileDownloadName = imageName
+        };
     }
 
     /// <summary>

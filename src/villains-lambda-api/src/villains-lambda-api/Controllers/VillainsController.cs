@@ -1,12 +1,20 @@
 namespace Villains.Lambda.Api.Controllers;
 
+/// <summary>
+/// A controller for managing villains.
+/// </summary>
 [ApiController]
 [Route("api/")]
 public class VillainsController : Controller
 {
-    private readonly VillainsService _villainsService;
+    private readonly IVillainsService _villainsService;
 
-    public VillainsController(VillainsService villainsService)
+    /// <summary>
+    /// Constructor for the villains controller.
+    /// </summary>
+    /// <param name="villainsService"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public VillainsController(IVillainsService villainsService)
     {
         _villainsService = villainsService ?? throw new ArgumentNullException(nameof(villainsService));
     }
@@ -23,9 +31,9 @@ public class VillainsController : Controller
         await _villainsService
             .GetAllAsync(ct)
             .ToListAsync(ct);
-    
+
     /// <summary>
-    /// Get a particular villain by id. 
+    /// Get a particular villain by id.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="ct"></param>
@@ -37,7 +45,7 @@ public class VillainsController : Controller
     public async Task<ActionResult<Villain>> Get([FromRoute]string id, CancellationToken ct)
     {
         var result = await _villainsService.GetAsync(id, ct);
-        return result.IsSuccess switch 
+        return result.IsSuccess switch
         {
             true =>  result.Value,
             false => result.HasException<KeyNotFoundException>()
@@ -45,7 +53,7 @@ public class VillainsController : Controller
                 : new StatusCodeResult(StatusCodes.Status500InternalServerError)
         };
     }
-    
+
     /// <summary>
     /// Create a new villain.
     /// </summary>
@@ -66,12 +74,12 @@ public class VillainsController : Controller
         var validationResult = await validator.ValidateAsync(newVillain, ct);
         if (!validationResult.IsValid)
             return new BadRequestObjectResult(validationResult.Errors);
-        
+
         var villainId = await _villainsService.CreateAsync(newVillain, ct);
         var villain = await _villainsService.GetAsync(villainId, ct);
         return new CreatedAtRouteResult("villain", new { id = villainId }, villain);
     }
-    
+
     /// <summary>
     /// Update a villain.
     /// </summary>
@@ -92,12 +100,12 @@ public class VillainsController : Controller
     {
         var validationResult = await validator.ValidateAsync(villain, ct);
         if (!validationResult.IsValid)
-            return new BadRequestObjectResult(validationResult.Errors);        
-        
+            return new BadRequestObjectResult(validationResult.Errors);
+
         var exists = await _villainsService.ExistsAsync(villain.Id, ct);
         if (!exists)
             return new NotFoundResult();
-        
+
         var result = await _villainsService.UpdateAsync(villain, ct);
 
         return result.IsSuccess switch

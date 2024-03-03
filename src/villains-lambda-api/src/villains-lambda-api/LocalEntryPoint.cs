@@ -5,6 +5,10 @@
 /// </summary>
 public static class LocalEntryPoint
 {
+    /// <summary>
+    /// Used to run the ASP.NET Core application locally using the Kestrel webserver.
+    /// </summary>
+    /// <param name="args"></param>
     public static async Task Main(string[] args) =>
         await CreateHostBuilder(args).Build().RunAsync();
 

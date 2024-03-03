@@ -4,7 +4,7 @@ using Amazon.S3.Model;
 
 namespace Villains.Lambda.Api.Services;
 
-public class ImageService
+internal class ImageService : IImageService
 {
     private readonly IAmazonS3 _s3Client;
 
@@ -28,7 +28,7 @@ public class ImageService
         ".tiff"
     };
 
-    public async Task<GetImageFileResponse> GetImageAsync(string imageName)
+    public async Task<GetImageFileResponse> GetImageAsync(string imageName, CancellationToken ct)
     {
         var request = new GetObjectRequest
         {
@@ -38,33 +38,36 @@ public class ImageService
 
         try
         {
-            var response = await _s3Client.GetObjectAsync(request);
+            var response = await _s3Client.GetObjectAsync(request, ct);
 
             if (response.HttpStatusCode != HttpStatusCode.OK)
-                return await GetNotFoundImageAsync();
+                return await GetNotFoundImageAsync(ct);
 
             return new GetImageFileResponse
             {
-                Stream = response.ResponseStream,
-                MimeType = $"image/{Path.GetExtension(imageName)[1..]}"
+                Data = await response.ResponseStream.ToByteArrayAsync(ct),
+                MimeType = response.Headers.ContentType,
+                FileName = imageName
             };
-        } catch (AmazonS3Exception ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        }
+        catch (AmazonS3Exception ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
-            return await GetNotFoundImageAsync();
+            return await GetNotFoundImageAsync(ct);
         }
     }
 
-    private Task<GetImageFileResponse> GetNotFoundImageAsync()
+    private async Task<GetImageFileResponse> GetNotFoundImageAsync(CancellationToken ct)
     {
         var stream = Assembly
             .GetExecutingAssembly()
             .GetManifestResourceStream("Villains.Lambda.Api.Resources.notfound.jfif");
 
-        return Task.FromResult(new GetImageFileResponse
+        return new GetImageFileResponse
         {
-            Stream = stream!,
-            MimeType = ".jfif"
-        });
+            Data = await stream!.ToByteArrayAsync(ct),
+            MimeType = "image/jpeg",
+            FileName = "notfound.jfif"
+        };
     }
 
     public async Task<Result<UploadImageResponse>> UploadImageAsync(IFormFile image, CancellationToken ct)

@@ -3,6 +3,8 @@ global using Amazon.S3;
 global using FluentResults;
 global using FluentValidation;
 global using Microsoft.AspNetCore.Mvc;
+global using Villains.Lambda.Api.Abstractions;
+global using Villains.Lambda.Api.Extensions;
 global using Villains.Lambda.Api.Messaging;
 global using Villains.Lambda.Api.Models;
 global using Villains.Lambda.Api.Services;

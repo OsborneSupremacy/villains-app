@@ -3,13 +3,23 @@ using Microsoft.OpenApi.Models;
 
 namespace Villains.Lambda.Api;
 
+/// <summary>
+/// The startup class for the application.
+/// </summary>
 public class Startup
 {
+    /// <summary>
+    /// The constructor for the startup class.
+    /// </summary>
+    /// <param name="configuration"></param>
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
     }
 
+    /// <summary>
+    /// The configuration for the application.
+    /// </summary>
     public IConfiguration Configuration { get; }
 
     /// <summary>
@@ -34,8 +44,8 @@ public class Startup
         services.AddSingleton<IAmazonDynamoDB>(dynamoClient);
         services.AddSingleton<IAmazonS3>(new AmazonS3Client());
 
-        services.AddScoped<VillainsService>();
-        services.AddScoped<ImageService>();
+        services.AddScoped<IVillainsService, VillainsService>();
+        services.AddScoped<IImageService, ImageService>();
 
         // don't want to use assembly scanning (`AddValidatorsFromAssemblyContaining`) for performance reasons
         services.AddScoped<IValidator<NewVillain>, NewVillainValidator>();

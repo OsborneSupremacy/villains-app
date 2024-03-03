@@ -3,10 +3,10 @@ using Amazon.DynamoDBv2.Model;
 
 namespace Villains.Lambda.Api.Services;
 
-public class VillainsService
+internal class VillainsService : IVillainsService
 {
     private readonly IAmazonDynamoDB _dynamoDbClient;
-    
+
     public VillainsService(IAmazonDynamoDB dynamoDbClient)
     {
         _dynamoDbClient = dynamoDbClient;
@@ -32,7 +32,7 @@ public class VillainsService
              }))
             yield return villain;
     }
-    
+
     public async Task<Result<Villain>> GetAsync(string id, CancellationToken ct = default)
     {
         try
@@ -45,7 +45,7 @@ public class VillainsService
                     ["id"] = new AttributeValue { S = id }
                 }
             }, ct);
-            
+
             return new Villain
             {
                 Id = response.Item["id"].S,
@@ -60,7 +60,7 @@ public class VillainsService
             return Result.Fail(new ExceptionalError(ex));
         }
     }
-    
+
     public async Task<bool> ExistsAsync(string id, CancellationToken ct = default)
     {
         try
@@ -80,17 +80,11 @@ public class VillainsService
             return false;
         }
     }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="newVillain"></param>
-    /// <param name="ct"></param>
-    /// <returns>The ID of the new Villain</returns>
+
     public async Task<string> CreateAsync(NewVillain newVillain, CancellationToken ct = default)
     {
         var id = ObjectIdGenerator.New();
-        
+
         var request = new PutItemRequest
         {
             TableName = "villains",
@@ -104,11 +98,11 @@ public class VillainsService
                 { "saying", new AttributeValue {S = newVillain.Saying }}
             }
         };
-        
+
         await _dynamoDbClient.PutItemAsync(request, ct);
         return id;
     }
-    
+
     public async Task<Result> UpdateAsync(Villain villain, CancellationToken ct = default)
     {
         var request = new UpdateItemRequest
@@ -136,7 +130,7 @@ public class VillainsService
                 {"#s", "saying"}
             }
         };
-        
+
         await _dynamoDbClient.UpdateItemAsync(request, ct);
         return Result.Ok();
     }
