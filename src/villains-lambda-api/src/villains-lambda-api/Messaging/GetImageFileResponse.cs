@@ -6,9 +6,9 @@ namespace Villains.Lambda.Api.Messaging;
 public record GetImageFileResponse
 {
     /// <summary>
-    /// The data of the image file.
+    /// The base64 encoded image file.
     /// </summary>
-    public required byte[] Data { get; init; }
+    public required Stream FileStream { get; init; }
 
     /// <summary>
     /// The MIME type of the image file.

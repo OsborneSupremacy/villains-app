@@ -45,7 +45,7 @@ internal class ImageService : IImageService
 
             return new GetImageFileResponse
             {
-                Data = await response.ResponseStream.ToByteArrayAsync(ct),
+                FileStream = response.ResponseStream,
                 MimeType = response.Headers.ContentType,
                 FileName = imageName
             };
@@ -56,18 +56,18 @@ internal class ImageService : IImageService
         }
     }
 
-    private async Task<GetImageFileResponse> GetNotFoundImageAsync(CancellationToken ct)
+    private Task<GetImageFileResponse> GetNotFoundImageAsync(CancellationToken ct)
     {
         var stream = Assembly
             .GetExecutingAssembly()
             .GetManifestResourceStream("Villains.Lambda.Api.Resources.notfound.jfif");
 
-        return new GetImageFileResponse
+        return Task.FromResult(new GetImageFileResponse
         {
-            Data = await stream!.ToByteArrayAsync(ct),
+            FileStream = stream!,
             MimeType = "image/jpeg",
             FileName = "notfound.jfif"
-        };
+        });
     }
 
     public async Task<Result<UploadImageResponse>> UploadImageAsync(IFormFile image, CancellationToken ct)

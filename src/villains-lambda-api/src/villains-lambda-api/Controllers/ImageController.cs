@@ -22,23 +22,19 @@ public class ImageController : Controller
     }
 
     /// <summary>
-    /// Get an image by name.
+    /// Gets the base64-encoded image by name.
     /// </summary>
     /// <param name="imageName"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
     [HttpGet]
     [Route("image/{imageName}")]
-    public async Task<FileContentResult> Get([FromRoute]string imageName, CancellationToken ct)
+    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
+    public async Task<FileStreamResult> Get([FromRoute]string imageName, CancellationToken ct)
     {
         var result = await _imageService.GetImageAsync(imageName, ct);
-
-        return new FileContentResult(result.Data, new MediaTypeHeaderValue(result.MimeType))
-        {
-            FileDownloadName = imageName
-        };
+        return File(result.FileStream, result.MimeType);
     }
-
     /// <summary>
     /// Upload an image.
     /// </summary>

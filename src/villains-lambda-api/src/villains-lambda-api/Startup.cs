@@ -41,6 +41,7 @@ public class Startup
         // AWS stuff
         AmazonDynamoDBClient dynamoClient = new();
 
+        // my services
         services.AddSingleton<IAmazonDynamoDB>(dynamoClient);
         services.AddSingleton<IAmazonS3>(new AmazonS3Client());
 
