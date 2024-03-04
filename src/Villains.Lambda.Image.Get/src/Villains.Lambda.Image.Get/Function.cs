@@ -30,6 +30,10 @@ public class Function
             StatusCode = (int)HttpStatusCode.OK,
             IsBase64Encoded = true,
             Body = result.Base64EncodedImage,
+            Headers = new Dictionary<string, string>
+            {
+                { "Content-Type", result.MimeType }
+            }
         };
     }
 }
