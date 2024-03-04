@@ -1,10 +1,12 @@
 using System.Net;
 using System.Reflection;
+using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.AspNetCore.Http;
 
-namespace Villains.Lambda.Api.Services;
+namespace Villains.Library.Services;
 
-internal class ImageService : IImageService
+public class ImageService : IImageService
 {
     private readonly IAmazonS3 _s3Client;
 
@@ -46,28 +48,31 @@ internal class ImageService : IImageService
             return new GetImageFileResponse
             {
                 FileStream = response.ResponseStream,
+                Base64EncodedImage = await response.ResponseStream.ToBase64StringAsync(ct),
                 MimeType = response.Headers.ContentType,
                 FileName = imageName
             };
         }
-        catch (AmazonS3Exception ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        catch (AmazonS3Exception ex)
         {
+            Console.WriteLine($"Could not get image from S3. Note that an `Access Denied` exception may be throw if the image doesn't exist. Exception details: {ex}");
             return await GetNotFoundImageAsync(ct);
         }
     }
 
-    private Task<GetImageFileResponse> GetNotFoundImageAsync(CancellationToken ct)
+    private async Task<GetImageFileResponse> GetNotFoundImageAsync(CancellationToken ct)
     {
         var stream = Assembly
             .GetExecutingAssembly()
-            .GetManifestResourceStream("Villains.Lambda.Api.Resources.notfound.jfif");
+            .GetManifestResourceStream("Villains.Library.Resources.notfound.jfif");
 
-        return Task.FromResult(new GetImageFileResponse
+        return new GetImageFileResponse
         {
             FileStream = stream!,
+            Base64EncodedImage = await stream!.ToBase64StringAsync(ct),
             MimeType = "image/jpeg",
             FileName = "notfound.jfif"
-        });
+        };
     }
 
     public async Task<Result<UploadImageResponse>> UploadImageAsync(IFormFile image, CancellationToken ct)

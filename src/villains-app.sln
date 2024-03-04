@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "villains-lambda-api", "vill
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "villains-lambda-api.Tests", "villains-lambda-api\test\villains-lambda-api.Tests\villains-lambda-api.Tests.csproj", "{B29A02EB-CDE1-42BE-B9E6-743145EC257D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Library", "Villains.Library\Villains.Library.csproj", "{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Image.Get", "Villains.Lambda.Image.Get\src\Villains.Lambda.Image.Get\Villains.Lambda.Image.Get.csproj", "{B5E14650-0030-4E83-A411-1E9328455D18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E14650-0030-4E83-A411-1E9328455D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E14650-0030-4E83-A411-1E9328455D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E14650-0030-4E83-A411-1E9328455D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E14650-0030-4E83-A411-1E9328455D18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

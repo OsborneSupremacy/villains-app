@@ -1,4 +1,4 @@
-namespace Villains.Lambda.Api.Messaging;
+namespace Villains.Library.Messaging;
 
 /// <summary>
 /// A response containing an image file.
@@ -6,9 +6,14 @@ namespace Villains.Lambda.Api.Messaging;
 public record GetImageFileResponse
 {
     /// <summary>
-    /// The base64 encoded image file.
+    /// The file stream of the image file.
     /// </summary>
     public required Stream FileStream { get; init; }
+
+    /// <summary>
+    /// The base64 encoded image file.
+    /// </summary>
+    public required string Base64EncodedImage { get; init; }
 
     /// <summary>
     /// The MIME type of the image file.

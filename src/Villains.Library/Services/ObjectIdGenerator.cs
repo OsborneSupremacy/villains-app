@@ -1,6 +1,6 @@
-namespace Villains.Lambda.Api.Services;
+namespace Villains.Library.Services;
 
-internal static class ObjectIdGenerator
+public static class ObjectIdGenerator
 {
     public static string New()
     {

@@ -1,4 +1,6 @@
-namespace Villains.Lambda.Api.Abstractions;
+using Microsoft.AspNetCore.Http;
+
+namespace Villains.Library.Abstractions;
 
 /// <summary>
 /// The service for working with images.

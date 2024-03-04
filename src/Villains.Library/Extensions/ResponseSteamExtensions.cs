@@ -1,4 +1,4 @@
-namespace Villains.Lambda.Api.Extensions;
+namespace Villains.Library.Extensions;
 
 internal static class ResponseSteamExtensions
 {

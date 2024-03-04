@@ -35,6 +35,7 @@ public class ImageController : Controller
         var result = await _imageService.GetImageAsync(imageName, ct);
         return File(result.FileStream, result.MimeType);
     }
+    
     /// <summary>
     /// Upload an image.
     /// </summary>

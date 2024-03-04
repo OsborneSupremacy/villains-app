@@ -24,10 +24,9 @@
         <PackageReference Include="System.Linq.Async" Version="6.0.1"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Resources\"/>
+        <None Remove="Resources\notfound.jfif"/>
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Resources\notfound.jfif"/>
-        <EmbeddedResource Include="Resources\notfound.jfif"/>
+      <ProjectReference Include="..\..\..\Villains.Library\Villains.Library.csproj" />
     </ItemGroup>
 </Project>

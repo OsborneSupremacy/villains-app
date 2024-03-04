@@ -1,4 +1,4 @@
-namespace Villains.Lambda.Api.Abstractions;
+namespace Villains.Library.Abstractions;
 
 /// <summary>
 /// The service for working with villains.

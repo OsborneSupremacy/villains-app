@@ -1,15 +1,10 @@
-namespace Villains.Lambda.Api.Models;
+namespace Villains.Library.Models;
 
 /// <summary>
-/// A representation of a villain.
+/// A representation of a new villain.
 /// </summary>
-public record Villain
+public record NewVillain
 {
-    /// <summary>
-    /// The unique identifier of the villain.
-    /// </summary>
-    public required string Id { get; init; }
-
     /// <summary>
     /// The name of the villain.
     /// </summary>
@@ -36,11 +31,10 @@ public record Villain
     public required string Saying { get; init; }
 }
 
-internal class VillainValidator : AbstractValidator<Villain>
+public class NewVillainValidator : AbstractValidator<NewVillain>
 {
-    public VillainValidator()
+    public NewVillainValidator()
     {
-        RuleFor(villain => villain.Id).Matches("^[0-9a-fA-F]{24}$");
         RuleFor(villain => villain.Name).NotEmpty();
         RuleFor(villain => villain.Powers).NotEmpty();
         RuleFor(villain => villain.ImageName).NotEmpty();

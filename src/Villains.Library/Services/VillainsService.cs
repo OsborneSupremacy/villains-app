@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 
-namespace Villains.Lambda.Api.Services;
+namespace Villains.Library.Services;
 
-internal class VillainsService : IVillainsService
+public class VillainsService : IVillainsService
 {
     private readonly IAmazonDynamoDB _dynamoDbClient;
 

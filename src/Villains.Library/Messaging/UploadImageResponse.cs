@@ -1,4 +1,4 @@
-namespace Villains.Lambda.Api.Messaging;
+namespace Villains.Library.Messaging;
 
 /// <summary>
 /// The response from uploading an image.
