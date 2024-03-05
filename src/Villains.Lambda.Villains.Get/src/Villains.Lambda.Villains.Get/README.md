@@ -44,6 +44,6 @@ Execute unit tests
 
 Deploy function to AWS Lambda
 ```
-    cd "Villains.Lambda.Villains.Get/src/Villains.Lambda.Villains.Get"
-    dotnet lambda deploy-function
+cd "Villains.Lambda.Villains.Get/src/Villains.Lambda.Villains.Get"
+dotnet lambda deploy-function --function-name villains-get
 ```

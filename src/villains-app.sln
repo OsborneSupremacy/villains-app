@@ -2,13 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "villains-lambda-api", "villains-lambda-api\src\villains-lambda-api\villains-lambda-api.csproj", "{CB03EA44-76A3-4717-BF26-7C1E6A0945AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "villains-lambda-api.Tests", "villains-lambda-api\test\villains-lambda-api.Tests\villains-lambda-api.Tests.csproj", "{B29A02EB-CDE1-42BE-B9E6-743145EC257D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Library", "Villains.Library\Villains.Library.csproj", "{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Image.Get", "Villains.Lambda.Image.Get\src\Villains.Lambda.Image.Get\Villains.Lambda.Image.Get.csproj", "{B5E14650-0030-4E83-A411-1E9328455D18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Villains.Get", "Villains.Lambda.Villains.Get\src\Villains.Lambda.Villains.Get\Villains.Lambda.Villains.Get.csproj", "{90ED0651-1E93-4C6B-8EF8-6E95A80496AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Villain.Get", "Villains.Lambda.Villain.Get\src\Villains.Lambda.Villain.Get\Villains.Lambda.Villain.Get.csproj", "{83B4D5E5-E5D1-436F-BD1E-3A009C031006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +20,6 @@ Global
 		{CB03EA44-76A3-4717-BF26-7C1E6A0945AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB03EA44-76A3-4717-BF26-7C1E6A0945AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB03EA44-76A3-4717-BF26-7C1E6A0945AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B29A02EB-CDE1-42BE-B9E6-743145EC257D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAA48614-AB1C-4D84-AD46-FCFE26B28E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,5 +32,9 @@ Global
 		{90ED0651-1E93-4C6B-8EF8-6E95A80496AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90ED0651-1E93-4C6B-8EF8-6E95A80496AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90ED0651-1E93-4C6B-8EF8-6E95A80496AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B4D5E5-E5D1-436F-BD1E-3A009C031006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B4D5E5-E5D1-436F-BD1E-3A009C031006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B4D5E5-E5D1-436F-BD1E-3A009C031006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B4D5E5-E5D1-436F-BD1E-3A009C031006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -38,12 +38,12 @@ If already installed check if new version is available.
 
 Execute unit tests
 ```
-    cd "Villains.Lambda.Image.Get/test/Villains.Lambda.Image.Get.Tests"
+    cd "Villains.Lambda.Villain.Get/test/Villains.Lambda.Villain.Get.Tests"
     dotnet test
 ```
 
 Deploy function to AWS Lambda
 ```
-cd "Villains.Lambda.Image.Get/src/Villains.Lambda.Image.Get"
-dotnet lambda deploy-function --function-name villain-get
+    cd "Villains.Lambda.Villain.Get/src/Villains.Lambda.Villain.Get"
+    dotnet lambda deploy-function
 ```

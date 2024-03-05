@@ -13,7 +13,7 @@ namespace Villains.Lambda.Villains.Get;
 public class Function
 {
     /// <summary>
-    /// Retrieves an image from S3 and returns it as a base64-encoded string.
+    /// Gets all villains from the database.
     /// </summary>
     /// <param name="request"></param>
     /// <param name="context"></param>
