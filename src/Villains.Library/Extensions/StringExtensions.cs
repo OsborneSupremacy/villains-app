@@ -2,7 +2,7 @@ namespace Villains.Library.Extensions;
 
 public static class StringExtensions
 {
-    private static readonly ILookup<string, string> _extensionMimeTypeMap = new Dictionary<string, string>
+    private static readonly ILookup<string, string> ExtensionMimeTypeMap = new Dictionary<string, string>
     {
         { ".apng", "image/apng" },
         { ".avif", "image/avif" },
@@ -20,6 +20,6 @@ public static class StringExtensions
     public static string GetMimeType(this string fileName)
     {
         var extension = Path.GetExtension(fileName);
-        return _extensionMimeTypeMap[extension].FirstOrDefault() ?? "image/jpeg";
+        return ExtensionMimeTypeMap[extension].FirstOrDefault() ?? "image/jpeg";
     }
 }
