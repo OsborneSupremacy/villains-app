@@ -1,0 +1,25 @@
+namespace Villains.Library.Extensions;
+
+public static class StringExtensions
+{
+    private static readonly ILookup<string, string> _extensionMimeTypeMap = new Dictionary<string, string>
+    {
+        { ".apng", "image/apng" },
+        { ".avif", "image/avif" },
+        { ".gif", "image/gif" },
+        { ".jfif", "image/jpeg" },
+        { ".jpeg", "image/jpeg" },
+        { ".jpg", "image/jpeg" },
+        { ".png", "image/png" },
+        { ".svg", "image/svg+xml" },
+        { ".webp", "image/webp" },
+        { ".bmp", "image/bmp" },
+        { ".tiff", "image/tiff" }
+    }.ToLookup(kvp => kvp.Key, kvp => kvp.Value);
+
+    public static string GetMimeType(this string fileName)
+    {
+        var extension = Path.GetExtension(fileName);
+        return _extensionMimeTypeMap[extension].FirstOrDefault() ?? "image/jpeg";
+    }
+}

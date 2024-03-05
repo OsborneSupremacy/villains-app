@@ -28,6 +28,7 @@ public class VillainsService : IVillainsService
                  Name = item["name"].S,
                  Powers = item["powers"].S,
                  ImageName = item["imageName"].S,
+                 MimeType = item["imageName"].S.GetMimeType(),
                  ButtonText = item["buttonText"].S,
                  Saying = item["saying"].S
              }))
@@ -53,6 +54,7 @@ public class VillainsService : IVillainsService
                 Name = response.Item["name"].S,
                 Powers = response.Item["powers"].S,
                 ImageName = response.Item["imageName"].S,
+                MimeType = response.Item["imageName"].S.GetMimeType(),
                 ButtonText = response.Item["buttonText"].S,
                 Saying = response.Item["saying"].S
             };

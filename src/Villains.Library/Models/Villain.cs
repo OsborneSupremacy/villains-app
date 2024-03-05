@@ -26,6 +26,11 @@ public record Villain
     public required string ImageName { get; init; }
 
     /// <summary>
+    /// The MIME type of the image file.
+    /// </summary>
+    public required string MimeType { get; init; }
+
+    /// <summary>
     /// The text to display on the button.
     /// </summary>
     public required string ButtonText { get; init; }
