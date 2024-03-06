@@ -84,7 +84,7 @@ public class ImageService : IImageService
         if (!_fileExtensions.Contains(ext))
             return Result.Fail(new ExceptionalError(new InvalidOperationException()));
 
-        var newFileName = $"{Guid.NewGuid()}ext";
+        var newFileName = $"{Guid.NewGuid()}{ext}";
         // convert base64 string to
 
         var request = new PutObjectRequest
