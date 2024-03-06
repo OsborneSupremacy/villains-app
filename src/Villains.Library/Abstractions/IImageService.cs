@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-
 namespace Villains.Library.Abstractions;
 
 /// <summary>
@@ -14,12 +12,11 @@ public interface IImageService
     /// <param name="ct"></param>
     /// <returns></returns>
     Task<GetImageFileResponse> GetImageAsync(string imageName, CancellationToken ct);
-
     /// <summary>
     /// Uploads an image to the image store.
     /// </summary>
-    /// <param name="image"></param>
+    /// <param name="imageUploadRequest"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<Result<UploadImageResponse>> UploadImageAsync(IFormFile image, CancellationToken ct);
+    Task<Result<ImageUploadResponse>> UploadImageAsync(ImageUploadRequest imageUploadRequest, CancellationToken ct);
 }

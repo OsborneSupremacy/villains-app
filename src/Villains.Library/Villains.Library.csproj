@@ -11,16 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.301.16" />
-      <PackageReference Include="AWSSDK.S3" Version="3.7.305.29" />
+      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.301.17" />
+      <PackageReference Include="AWSSDK.S3" Version="3.7.305.30" />
       <PackageReference Include="FluentResults" Version="3.15.2" />
       <PackageReference Include="FluentValidation" Version="11.9.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore.Http.Features">
-        <HintPath>..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\8.0.1\Microsoft.AspNetCore.Http.Features.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>

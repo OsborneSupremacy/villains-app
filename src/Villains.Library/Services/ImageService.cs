@@ -2,7 +2,6 @@ using System.Net;
 using System.Reflection;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Microsoft.AspNetCore.Http;
 
 namespace Villains.Library.Services;
 
@@ -75,26 +74,31 @@ public class ImageService : IImageService
         };
     }
 
-    public async Task<Result<UploadImageResponse>> UploadImageAsync(IFormFile image, CancellationToken ct)
+    public async Task<Result<ImageUploadResponse>> UploadImageAsync(
+        ImageUploadRequest imageUploadRequest,
+        CancellationToken ct
+        )
     {
-        var ext = Path.GetExtension(image.FileName);
+        var ext = Path.GetExtension(imageUploadRequest.FileName);
 
         if (!_fileExtensions.Contains(ext))
             return Result.Fail(new ExceptionalError(new InvalidOperationException()));
 
-        var newFileName = Guid.NewGuid() + ext;
+        var newFileName = $"{Guid.NewGuid()}ext";
+        // convert base64 string to
 
         var request = new PutObjectRequest
         {
             BucketName = "villains-images",
             Key = newFileName,
-            InputStream = image.OpenReadStream()
+            InputStream = new MemoryStream(Convert.FromBase64String(imageUploadRequest.Base64EncodedImage))
         };
 
         await _s3Client.PutObjectAsync(request, ct);
-        return new UploadImageResponse
+        return new ImageUploadResponse
         {
             FileName = newFileName
         };
     }
+
 }

@@ -3,7 +3,7 @@ namespace Villains.Library.Messaging;
 /// <summary>
 /// The response from uploading an image.
 /// </summary>
-public record UploadImageResponse
+public record ImageUploadResponse
 {
     /// <summary>
     /// The name of the file on the server.

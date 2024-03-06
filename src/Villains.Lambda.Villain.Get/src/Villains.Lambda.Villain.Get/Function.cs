@@ -1,8 +1,8 @@
+using System.Net;
 using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Microsoft.AspNetCore.Http;
 using Villains.Library.Services;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -25,12 +25,12 @@ public class Function
         if(!result.IsSuccess)
             return new APIGatewayProxyResponse
             {
-                StatusCode = StatusCodes.Status404NotFound
+                StatusCode = (int)HttpStatusCode.NotFound
             };
 
         return new APIGatewayProxyResponse
         {
-            StatusCode = StatusCodes.Status200OK,
+            StatusCode = (int)HttpStatusCode.OK,
             Body = JsonSerializer.Serialize(result.Value)
         };
     }

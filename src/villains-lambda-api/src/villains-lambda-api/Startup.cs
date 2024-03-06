@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Amazon.DynamoDBv2;
 using Amazon.S3;
 using Microsoft.OpenApi.Models;
 

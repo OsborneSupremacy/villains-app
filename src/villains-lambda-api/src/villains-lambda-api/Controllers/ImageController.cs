@@ -1,5 +1,3 @@
-using Microsoft.Net.Http.Headers;
-
 namespace Villains.Lambda.Api.Controllers;
 
 /// <summary>
@@ -22,7 +20,7 @@ public class ImageController : Controller
     }
 
     /// <summary>
-    /// Gets the base64-encoded image by name.
+    /// Gets the image by name.
     /// </summary>
     /// <param name="imageName"></param>
     /// <param name="ct"></param>
@@ -34,33 +32,5 @@ public class ImageController : Controller
     {
         var result = await _imageService.GetImageAsync(imageName, ct);
         return File(result.FileStream, result.MimeType);
-    }
-    
-    /// <summary>
-    /// Upload an image.
-    /// </summary>
-    /// <param name="image"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
-    [HttpPost]
-    [Route("image")]
-    [RequestSizeLimit(20000000)]
-    [ProducesResponseType(typeof(ActionResult<UploadImageResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
-    public async Task<ActionResult<UploadImageResponse>> UploadAsync([FromForm]IFormFile? image, CancellationToken ct)
-    {
-        if (image is null)
-            return new BadRequestResult();
-
-        var result = await _imageService.UploadImageAsync(image, ct);
-
-        return result.IsSuccess switch
-        {
-            true => new OkObjectResult(result.Value),
-            false => result.HasException<InvalidOperationException>()
-                ? new StatusCodeResult(StatusCodes.Status415UnsupportedMediaType)
-                : new StatusCodeResult(StatusCodes.Status500InternalServerError)
-        };
     }
 }
