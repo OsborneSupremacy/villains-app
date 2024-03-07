@@ -26,5 +26,5 @@ To view execution logs of invocations of your function use the Logs tab in the o
 
 Deploy function to AWS Lambda
 ```
-dotnet lambda deploy-function --function-name villain-create
+dotnet lambda deploy-function --function-name villain-update
 ```

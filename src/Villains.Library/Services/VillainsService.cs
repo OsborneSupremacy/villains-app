@@ -106,7 +106,7 @@ public class VillainsService : IVillainsService
         return id;
     }
 
-    public async Task<Result> UpdateAsync(Villain villain, CancellationToken ct = default)
+    public async Task<Result> UpdateAsync(EditVillain villain, CancellationToken ct = default)
     {
         var request = new UpdateItemRequest
         {

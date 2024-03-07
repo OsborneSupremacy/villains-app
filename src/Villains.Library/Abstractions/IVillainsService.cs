@@ -42,5 +42,5 @@ public interface IVillainsService
     /// <param name="villain"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    public Task<Result> UpdateAsync(Villain villain, CancellationToken ct = default);
+    public Task<Result> UpdateAsync(EditVillain villain, CancellationToken ct = default);
 }
