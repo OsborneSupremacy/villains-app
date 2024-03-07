@@ -24,7 +24,8 @@ To view execution logs of invocations of your function use the Logs tab in the o
 
 ## Here are some steps to follow to get started from the command line:
 
+
 Deploy function to AWS Lambda
 ```
-dotnet lambda deploy-function --function-name villain-get
+dotnet lambda deploy-function --function-name villain-create
 ```
