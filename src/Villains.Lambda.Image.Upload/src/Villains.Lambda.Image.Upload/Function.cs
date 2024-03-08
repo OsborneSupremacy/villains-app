@@ -25,7 +25,8 @@ public class Function
         if (uploadRequest == null)
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int)HttpStatusCode.BadRequest
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Headers = CorsHeaderService.GetCorsHeaders()
             };
 
         var validationResult = await new ImageUploadRequestValidator()
@@ -35,6 +36,7 @@ public class Function
             return new APIGatewayProxyResponse
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
+                Headers = CorsHeaderService.GetCorsHeaders(),
                 Body = JsonService.SerializeDefault(validationResult.Errors)
             };
 
@@ -48,6 +50,7 @@ public class Function
             true => new APIGatewayProxyResponse
             {
                 StatusCode = (int)HttpStatusCode.OK,
+                Headers = CorsHeaderService.GetCorsHeaders(),
                 Body = JsonService.SerializeDefault(result.Value)
             },
             false => result.HasException<InvalidOperationException>()

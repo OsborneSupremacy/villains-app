@@ -9,7 +9,7 @@ using Villains.Library.Services;
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace Villains.Lambda.Create;
+namespace Villains.Lambda.Villain.Create;
 
 public class Function
 {
@@ -20,7 +20,8 @@ public class Function
         if (newVillainRequest == null)
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int)HttpStatusCode.BadRequest
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Headers = CorsHeaderService.GetCorsHeaders()
             };
 
         var validationResult = await new NewVillainValidator()
@@ -30,6 +31,7 @@ public class Function
             return new APIGatewayProxyResponse
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
+                Headers = CorsHeaderService.GetCorsHeaders(),
                 Body = JsonService.SerializeDefault(validationResult.Errors)
             };
 
@@ -41,6 +43,7 @@ public class Function
         return new APIGatewayProxyResponse
         {
             StatusCode = (int)HttpStatusCode.OK,
+            Headers = CorsHeaderService.GetCorsHeaders(),
             Body = JsonService.SerializeDefault(new VillainCreateResponse
             {
                 VillainId = result

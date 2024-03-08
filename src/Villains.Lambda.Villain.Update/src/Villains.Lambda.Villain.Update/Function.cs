@@ -37,14 +37,16 @@ public class Function
         if (!await villainService.ExistsAsync(villainRequest.Id, CancellationToken.None))
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int)HttpStatusCode.NotFound
+                StatusCode = (int)HttpStatusCode.NotFound,
+                Headers = CorsHeaderService.GetCorsHeaders()
             };
 
         await villainService.UpdateAsync(villainRequest, CancellationToken.None);
 
         return new APIGatewayProxyResponse
         {
-            StatusCode = (int)HttpStatusCode.OK
+            StatusCode = (int)HttpStatusCode.OK,
+            Headers = CorsHeaderService.GetCorsHeaders()
         };
     }
 }

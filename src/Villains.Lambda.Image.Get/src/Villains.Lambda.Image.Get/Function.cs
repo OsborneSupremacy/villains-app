@@ -28,6 +28,7 @@ public class Function
         return new APIGatewayProxyResponse
         {
             StatusCode = (int)HttpStatusCode.OK,
+            Headers = CorsHeaderService.GetCorsHeaders(),
             Body = JsonService.SerializeDefault(result)
         };
     }

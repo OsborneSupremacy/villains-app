@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Villain.Get
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Image.Upload", "Villains.Lambda.Image.Upload\src\Villains.Lambda.Image.Upload\Villains.Lambda.Image.Upload.csproj", "{D37C2D25-BE2E-4408-8F42-3FC22F186FAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Create", "Villains.Lambda.Create\src\Villains.Lambda.Create\Villains.Lambda.Create.csproj", "{9D5FCDB8-A490-41BF-A85A-598D07ADAAE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Villain.Create", "Villains.Lambda.Create\src\Villains.Lambda.Villain.Create\Villains.Lambda.Villain.Create.csproj", "{9D5FCDB8-A490-41BF-A85A-598D07ADAAE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Lambda.Villain.Update", "Villains.Lambda.Villain.Update\src\Villains.Lambda.Villain.Update\Villains.Lambda.Villain.Update.csproj", "{CC0ED249-759B-4850-A88C-089A36706666}"
 EndProject
