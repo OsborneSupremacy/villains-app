@@ -8,6 +8,7 @@ export class Villain {
   mimeType: string;
   buttonText: string;
   saying: string;
+  flipped: boolean;
 
   constructor(
     id: string,
@@ -25,6 +26,7 @@ export class Villain {
     this.mimeType = mimeType;
     this.buttonText = buttonText;
     this.saying = saying;
+    this.flipped = false;
   }
 }
 // Path: villains-client/src/app/services/villain.service.ts

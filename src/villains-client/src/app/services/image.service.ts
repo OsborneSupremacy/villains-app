@@ -10,8 +10,7 @@ export class ImageService {
   constructor(private dataService: DataService) {
   }
 
-  public async GetImageAsync(imageName: string): Promise<Observable<ImageGetResponse>> {
-    return this.dataService.GetAsync<ImageGetResponse>(`images?imageName=${imageName}`);
+  public async GetImageAsync(imageName: string) {
+    return await this.dataService.GetAsync<ImageGetResponse>(`images?imageName=${imageName}`);
   }
-
 }
