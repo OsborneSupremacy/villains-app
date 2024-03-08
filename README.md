@@ -8,5 +8,5 @@ aws apigateway get-export --parameters extensions='apigateway' \
     --rest-api-id eujy7vsmkk \
     --stage-name live \
     --export-type swagger \
-    villains-gateway.json
+    doc/villains-gateway.json
 ```

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2024-03-07T13:56:56Z",
+    "version": "2024-03-08T16:20:32Z",
     "title": "villains-gateway"
   },
   "host": "eujy7vsmkk.execute-api.us-east-1.amazonaws.com",
@@ -40,6 +40,7 @@
         },
         "x-amazon-apigateway-request-validator": "Validate query string parameters and headers",
         "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
           "httpMethod": "POST",
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:182571449491:function:villains-image-get/invocations",
           "responses": {
@@ -48,8 +49,7 @@
             }
           },
           "passthroughBehavior": "when_no_match",
-          "contentHandling": "CONVERT_TO_TEXT",
-          "type": "aws_proxy"
+          "contentHandling": "CONVERT_TO_TEXT"
         }
       },
       "post": {
@@ -89,6 +89,7 @@
         },
         "x-amazon-apigateway-request-validator": "Validate body",
         "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
           "httpMethod": "POST",
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:182571449491:function:villains-image-upload/invocations",
           "responses": {
@@ -97,13 +98,13 @@
             }
           },
           "passthroughBehavior": "when_no_match",
-          "contentHandling": "CONVERT_TO_TEXT",
-          "type": "aws_proxy"
+          "contentHandling": "CONVERT_TO_TEXT"
         }
       }
     },
     "/villain": {
       "get": {
+        "operationId": "GetVillain",
         "produces": [
           "application/json"
         ],
@@ -119,7 +120,7 @@
           "200": {
             "description": "200 response",
             "schema": {
-              "$ref": "#/definitions/Empty"
+              "$ref": "#/definitions/VillainCreateResponse"
             }
           },
           "404": {
@@ -128,6 +129,7 @@
         },
         "x-amazon-apigateway-request-validator": "Validate query string parameters and headers",
         "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
           "httpMethod": "POST",
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:182571449491:function:villain-get/invocations",
           "responses": {
@@ -136,8 +138,7 @@
             }
           },
           "passthroughBehavior": "when_no_match",
-          "contentHandling": "CONVERT_TO_TEXT",
-          "type": "aws_proxy"
+          "contentHandling": "CONVERT_TO_TEXT"
         }
       },
       "post": {
@@ -174,6 +175,7 @@
         },
         "x-amazon-apigateway-request-validator": "Validate body",
         "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
           "httpMethod": "POST",
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:182571449491:function:villain-create/invocations",
           "responses": {
@@ -182,8 +184,7 @@
             }
           },
           "passthroughBehavior": "when_no_match",
-          "contentHandling": "CONVERT_TO_TEXT",
-          "type": "aws_proxy"
+          "contentHandling": "CONVERT_TO_TEXT"
         }
       },
       "put": {
@@ -220,6 +221,7 @@
         },
         "x-amazon-apigateway-request-validator": "Validate body",
         "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
           "httpMethod": "POST",
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:182571449491:function:villain-update/invocations",
           "responses": {
@@ -228,8 +230,7 @@
             }
           },
           "passthroughBehavior": "when_no_match",
-          "contentHandling": "CONVERT_TO_TEXT",
-          "type": "aws_proxy"
+          "contentHandling": "CONVERT_TO_TEXT"
         }
       }
     },
@@ -243,11 +244,12 @@
           "200": {
             "description": "200 response",
             "schema": {
-              "$ref": "#/definitions/Empty"
+              "$ref": "#/definitions/VillainsCollection"
             }
           }
         },
         "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
           "httpMethod": "POST",
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:182571449491:function:villains-get/invocations",
           "responses": {
@@ -256,8 +258,7 @@
             }
           },
           "passthroughBehavior": "when_no_match",
-          "contentHandling": "CONVERT_TO_TEXT",
-          "type": "aws_proxy"
+          "contentHandling": "CONVERT_TO_TEXT"
         }
       }
     }
@@ -284,6 +285,18 @@
     "Empty": {
       "type": "object",
       "title": "Empty Schema"
+    },
+    "VillainCreateResponse": {
+      "type": "object",
+      "required": [
+        "villainId"
+      ],
+      "properties": {
+        "villainId": {
+          "type": "string",
+          "description": " The ID of the newly-created villain."
+        }
+      }
     },
     "NewVillain": {
       "type": "object",
@@ -315,6 +328,51 @@
           "type": "string",
           "description": "The saying of the villain."
         }
+      }
+    },
+    "VillainsCollection": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the villain. It should match the pattern '^[0-9a-fA-F]{24}$'."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the villain."
+          },
+          "powers": {
+            "type": "string",
+            "description": "The powers of the villain."
+          },
+          "imageName": {
+            "type": "string",
+            "description": "The name of the image file associated with the villain."
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "The MIME type of the image file."
+          },
+          "buttonText": {
+            "type": "string",
+            "description": "The text to display on the button."
+          },
+          "saying": {
+            "type": "string",
+            "description": "The saying of the villain."
+          }
+        },
+        "required": [
+          "buttonText",
+          "id",
+          "imageName",
+          "mimeType",
+          "name",
+          "powers",
+          "saying"
+        ]
       }
     },
     "ImageUploadResponse": {

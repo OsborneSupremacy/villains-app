@@ -13,9 +13,7 @@ export class ImageService {
   constructor(private http: HttpClient) { }
 
   getImage(imageName: string): Observable<any> {
-    // Assuming you have an endpoint like /images/{imageName}
-    const endpoint = `${this.baseUrl}/images?imageName=${imageName}`;
-    return this.http.get(endpoint);
+    return this.http.get(`${this.baseUrl}/images?imageName=${imageName}`);
   }
 
   // Other image-related methods here
