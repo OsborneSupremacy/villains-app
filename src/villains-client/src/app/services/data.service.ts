@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpContext, HttpHeaderResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +23,4 @@ export class DataService {
   public PutAsync = async <T>(subUrl: string, body: T) => {
     return await this.http.put(`${this.baseUrl}${subUrl}`, body);
   }
-
 }

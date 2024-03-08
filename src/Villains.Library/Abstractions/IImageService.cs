@@ -11,7 +11,7 @@ public interface IImageService
     /// <param name="imageName"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<GetImageFileResponse> GetImageAsync(string imageName, CancellationToken ct);
+    Task<ImageGetResponse> GetImageAsync(string imageName, CancellationToken ct);
     /// <summary>
     /// Uploads an image to the image store.
     /// </summary>

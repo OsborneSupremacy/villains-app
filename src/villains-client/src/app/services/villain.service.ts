@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Villain } from '../models/villain';
+import {Injectable} from '@angular/core';
+import {Villain} from '../models/villain';
 import {DataService} from "./data.service";
 import {VillainCreateResponse} from "../models/villain-create-response";
 
@@ -9,7 +9,9 @@ import {VillainCreateResponse} from "../models/villain-create-response";
 export class VillainService {
 
   public selectedVillain: Villain | undefined;
-  constructor(private dataService: DataService) { }
+
+  constructor(private dataService: DataService) {
+  }
 
   public Select(villain: Villain) {
     this.selectedVillain = villain;

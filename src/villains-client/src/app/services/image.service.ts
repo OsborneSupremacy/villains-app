@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {DataService} from "./data.service";
+import {ImageGetResponse} from "../models/image-get-response";
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  private baseUrl: string = environment.apiUrl;
-
-  constructor(private http: HttpClient) { }
-
-  getImage(imageName: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/images?imageName=${imageName}`);
+  constructor(private dataService: DataService) {
   }
 
-  // Other image-related methods here
+  public async GetImageAsync(imageName: string): Promise<Observable<ImageGetResponse>> {
+    return this.dataService.GetAsync<ImageGetResponse>(`images?imageName=${imageName}`);
+  }
+
+
+
 }

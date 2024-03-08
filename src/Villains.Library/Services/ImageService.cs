@@ -29,7 +29,7 @@ public class ImageService : IImageService
         ".tiff"
     };
 
-    public async Task<GetImageFileResponse> GetImageAsync(string imageName, CancellationToken ct)
+    public async Task<ImageGetResponse> GetImageAsync(string imageName, CancellationToken ct)
     {
         var request = new GetObjectRequest
         {
@@ -44,11 +44,10 @@ public class ImageService : IImageService
             if (response.HttpStatusCode != HttpStatusCode.OK)
                 return await GetNotFoundImageAsync(ct);
 
-            return new GetImageFileResponse
+            return new ImageGetResponse
             {
-                FileStream = response.ResponseStream,
-                Base64EncodedImage = await response.ResponseStream.ToBase64StringAsync(ct),
-                MimeType = response.Headers.ContentType,
+                ImageSrc = await response.ResponseStream
+                    .ToImgSrcAsync(response.Headers.ContentType, ct),
                 FileName = imageName
             };
         }
@@ -59,17 +58,15 @@ public class ImageService : IImageService
         }
     }
 
-    private async Task<GetImageFileResponse> GetNotFoundImageAsync(CancellationToken ct)
+    private async Task<ImageGetResponse> GetNotFoundImageAsync(CancellationToken ct)
     {
         var stream = Assembly
             .GetExecutingAssembly()
             .GetManifestResourceStream("Villains.Library.Resources.notfound.jfif");
 
-        return new GetImageFileResponse
+        return new ImageGetResponse
         {
-            FileStream = stream!,
-            Base64EncodedImage = await stream!.ToBase64StringAsync(ct),
-            MimeType = "image/jpeg",
+            ImageSrc = await stream!.ToImgSrcAsync("image/jpeg", ct),
             FileName = "notfound.jfif"
         };
     }
@@ -85,7 +82,6 @@ public class ImageService : IImageService
             return Result.Fail(new ExceptionalError(new InvalidOperationException()));
 
         var newFileName = $"{Guid.NewGuid()}{ext}";
-        // convert base64 string to
 
         var request = new PutObjectRequest
         {
