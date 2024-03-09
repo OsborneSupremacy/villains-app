@@ -8,6 +8,7 @@
   >
 
     <img class="card-img-top" *ngIf="villain.imageLoaded" [src]="villain.base64Image" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
+    <img class="card-img-top" *ngIf="!villain.imageLoaded" src="./assets/images/villain-placeholder.jpeg" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
 
     <!-- front -->
     <div *ngIf="!villain.flipped" class="card-body">
