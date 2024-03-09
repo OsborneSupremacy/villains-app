@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Villains</a>
+      <a class="navbar-brand" [routerLink]="['/']">All Villains</a>
       <button class="navbar-toggler"
               type="button"
               data-toggle="collapse"
@@ -17,7 +17,7 @@
           <li class="nav-item"
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link" [routerLink]="['/Add']">Add</a>
+            <a class="nav-link" [routerLink]="['/villain/add']">Add</a>
           </li>
         </ul>
       </div>
