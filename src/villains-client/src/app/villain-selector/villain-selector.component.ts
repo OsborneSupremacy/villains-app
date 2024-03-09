@@ -37,11 +37,6 @@ export class VillainSelectorComponent {
   public flip(villain: Villain) {
     villain.flipped = !villain.flipped;
   }
-
-  public async getImageSrc(imageName: string) {
-    return await this.imageService.GetImageAsync(imageName);
-  };
-
   constructor(
     protected villainService: VillainService,
     protected imageService: ImageService,
@@ -54,7 +49,10 @@ export class VillainSelectorComponent {
   private async populateVillains() {
     this.villains = await this.villainService.GetAllAsync();
     for (const villain of this.villains) {
-      villain.base64Image = await this.getImageSrc(villain.imageName);
+      const imgResponse = await this.imageService.GetImageAsync(villain.imageName);
+      if(!imgResponse.exists)
+        continue;
+      villain.base64Image = imgResponse.imageSrc
       villain.imageLoaded = true;
     }
   }

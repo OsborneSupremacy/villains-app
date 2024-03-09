@@ -10,7 +10,6 @@ export class ImageService {
   }
 
   public async GetImageAsync(imageName: string){
-    const imgResponse = await this.dataService.GetAsync<ImageGetResponse>(`image?imageName=${imageName}`);
-    return imgResponse.imageSrc;
+    return await this.dataService.GetAsync<ImageGetResponse>(`image?imageName=${imageName}`);
   }
 }

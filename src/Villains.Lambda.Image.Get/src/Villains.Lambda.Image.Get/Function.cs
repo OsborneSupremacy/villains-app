@@ -29,7 +29,7 @@ public class Function
         {
             StatusCode = (int)HttpStatusCode.OK,
             Headers = CorsHeaderService.GetCorsHeaders(),
-            Body = JsonService.SerializeDefault(result)
+            Body = JsonService.SerializeDefault(result),
         };
     }
 }

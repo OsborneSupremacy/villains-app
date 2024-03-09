@@ -44,18 +44,18 @@ public class ImageService : IImageService
             var response = await _s3Client.GetObjectAsync(request, ct);
 
             if (response.HttpStatusCode != HttpStatusCode.OK)
-                return await GetNotFoundImageAsync(ct);
+                return NoImageResponse;
 
             try
             {
                 if (response.ResponseStream.Length > MaxPayloadSize)
-                    return await GetNotFoundImageAsync(ct);
+                    return NoImageResponse;
             }
             catch (NotSupportedException)
             {
                 // this happens when the stream is over a certain size.
                 // the image is definitely too large when this happens.
-                return await GetNotFoundImageAsync(ct);
+                return NoImageResponse;
             }
 
             var imgSrc = await response.ResponseStream
@@ -63,10 +63,11 @@ public class ImageService : IImageService
 
             // ensure that imgSrc is not over 6291556 bytes
             if (imgSrc.Length > MaxPayloadSize)
-                return await GetNotFoundImageAsync(ct);
+                return NoImageResponse;
 
             return new ImageGetResponse
             {
+                Exists = true,
                 ImageSrc = imgSrc,
                 FileName = imageName
             };
@@ -74,22 +75,16 @@ public class ImageService : IImageService
         catch (AmazonS3Exception ex)
         {
             Console.WriteLine($"Could not get image from S3. Note that an `Access Denied` exception may be throw if the image doesn't exist. Exception details: {ex}");
-            return await GetNotFoundImageAsync(ct);
+            return NoImageResponse;
         }
     }
 
-    private async Task<ImageGetResponse> GetNotFoundImageAsync(CancellationToken ct)
+    private static ImageGetResponse NoImageResponse => new()
     {
-        var stream = Assembly
-            .GetExecutingAssembly()
-            .GetManifestResourceStream("Villains.Library.Resources.notfound.jfif");
-
-        return new ImageGetResponse
-        {
-            ImageSrc = await stream!.ToImgSrcAsync("image/jpeg", ct),
-            FileName = "notfound.jfif"
-        };
-    }
+        Exists = false,
+        ImageSrc = string.Empty,
+        FileName = string.Empty
+    };
 
     public async Task<Result<ImageUploadResponse>> UploadImageAsync(
         ImageUploadRequest imageUploadRequest,

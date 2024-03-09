@@ -6,6 +6,11 @@ namespace Villains.Library.Messaging;
 public record ImageGetResponse
 {
     /// <summary>
+    /// Whether or not the image exists.
+    /// </summary>
+    public required bool Exists { get; init; }
+
+    /// <summary>
     /// The base64 encoded image file, including the `data:image` prefix (with mime type), so that it can be used as an image src value.
     /// </summary>
     public required string ImageSrc { get; init; }
