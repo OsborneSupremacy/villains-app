@@ -9,6 +9,8 @@ export class Villain {
   buttonText: string;
   saying: string;
   flipped: boolean;
+  base64Image: string;
+  imageLoaded: boolean;
 
   constructor(
     id: string,
@@ -27,6 +29,8 @@ export class Villain {
     this.buttonText = buttonText;
     this.saying = saying;
     this.flipped = false;
+    this.base64Image = ``;
+    this.imageLoaded = false;
   }
 }
 // Path: villains-client/src/app/services/villain.service.ts

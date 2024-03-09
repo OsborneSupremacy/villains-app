@@ -4,7 +4,7 @@ namespace Villains.Library.Services;
 
 public static class JsonService
 {
-    public static JsonSerializerOptions GetDefaultSerializerOptions() =>
+    private static JsonSerializerOptions GetDefaultSerializerOptions() =>
         new()
         {
             PropertyNameCaseInsensitive = true,

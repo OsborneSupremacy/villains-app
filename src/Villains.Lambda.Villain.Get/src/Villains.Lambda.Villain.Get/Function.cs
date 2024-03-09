@@ -1,5 +1,4 @@
 using System.Net;
-using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
@@ -32,7 +31,7 @@ public class Function
         {
             StatusCode = (int)HttpStatusCode.OK,
             Headers = CorsHeaderService.GetCorsHeaders(),
-            Body = JsonSerializer.Serialize(result.Value)
+            Body = JsonService.SerializeDefault(result.Value)
         };
     }
 }

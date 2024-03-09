@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Villain} from '../models/villain';
 import {VillainService} from '../services/villain.service';
 import {ImageService} from "../services/image.service";
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-villain-selector',
@@ -11,7 +11,8 @@ import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
   imports: [
     NgForOf,
     NgOptimizedImage,
-    NgIf
+    NgIf,
+    AsyncPipe
   ],
   templateUrl: './villain-selector.component.html',
   styleUrl: './villain-selector.component.scss'
@@ -38,8 +39,7 @@ export class VillainSelectorComponent {
   }
 
   public async getImageSrc(imageName: string) {
-    const response = await this.imageService.GetImageAsync(imageName);
-    return response.imageSrc;
+    return await this.imageService.GetImageAsync(imageName);
   };
 
   constructor(
@@ -53,5 +53,9 @@ export class VillainSelectorComponent {
 
   private async populateVillains() {
     this.villains = await this.villainService.GetAllAsync();
+    for (const villain of this.villains) {
+      villain.base64Image = await this.getImageSrc(villain.imageName);
+      villain.imageLoaded = true;
+    }
   }
 }
