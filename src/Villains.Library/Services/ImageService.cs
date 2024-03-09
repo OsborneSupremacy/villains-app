@@ -9,6 +9,8 @@ public class ImageService : IImageService
 {
     private readonly IAmazonS3 _s3Client;
 
+    private const int MaxPayloadSize = 6291556;
+
     public ImageService(IAmazonS3 s3Client)
     {
         _s3Client = s3Client ?? throw new ArgumentNullException(nameof(s3Client));
@@ -44,10 +46,28 @@ public class ImageService : IImageService
             if (response.HttpStatusCode != HttpStatusCode.OK)
                 return await GetNotFoundImageAsync(ct);
 
+            try
+            {
+                if (response.ResponseStream.Length > MaxPayloadSize)
+                    return await GetNotFoundImageAsync(ct);
+            }
+            catch (NotSupportedException)
+            {
+                // this happens when the stream is over a certain size.
+                // the image is definitely too large when this happens.
+                return await GetNotFoundImageAsync(ct);
+            }
+
+            var imgSrc = await response.ResponseStream
+                .ToImgSrcAsync(response.Headers.ContentType, ct);
+
+            // ensure that imgSrc is not over 6291556 bytes
+            if (imgSrc.Length > MaxPayloadSize)
+                return await GetNotFoundImageAsync(ct);
+
             return new ImageGetResponse
             {
-                ImageSrc = await response.ResponseStream
-                    .ToImgSrcAsync(response.Headers.ContentType, ct),
+                ImageSrc = imgSrc,
                 FileName = imageName
             };
         }
