@@ -7,14 +7,7 @@ import {VillainCreateResponse} from "../models/villain-create-response";
   providedIn: 'root'
 })
 export class VillainService {
-
-  public selectedVillain: Villain | undefined;
-
   constructor(private dataService: DataService) {
-  }
-
-  public Select(villain: Villain) {
-    this.selectedVillain = villain;
   }
 
   public async GetAsync(id: string) {
@@ -32,5 +25,4 @@ export class VillainService {
   public async UpdateAsync(villain: Villain) {
     return await this.dataService.PutAsync<Villain>(`villain`, villain);
   }
-
 }

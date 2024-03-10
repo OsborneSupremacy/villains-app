@@ -20,18 +20,8 @@ import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 export class VillainSelectorComponent {
 
   public villains: Villain[];
-
-  public selectedVillain(): Villain | undefined {
-    return this.villainService.selectedVillain;
-  }
-
-  public select(villain: Villain) {
-    this.villainService.selectedVillain = villain;
-  }
-
   public edit(villain: Villain) {
-    this.villainService.selectedVillain = villain;
-    this.router.navigate(['/', 'Edit']).then(r => {});
+    this.router.navigate(['/', 'villain', 'edit', villain.id]).then(r => {});
   }
 
   public flip(villain: Villain) {
