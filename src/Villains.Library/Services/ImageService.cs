@@ -98,6 +98,9 @@ public class ImageService : IImageService
 
         var newFileName = $"{Guid.NewGuid()}{ext}";
 
+        // need to resize image here
+        // change dimensions to square, etc.
+
         var request = new PutObjectRequest
         {
             BucketName = "villains-images",
