@@ -16,7 +16,7 @@
     </div>
 
     <div class="col-md-8">
-      <form novalidate [formGroup]="villainFg">
+      <form novalidate (ngSubmit)="onSubmit(villainFg)" [formGroup]="villainFg">
 
         <div class="form-floating mb-3">
           <input type="text" class="form-control" formControlName="name" id="Name"/>
@@ -35,7 +35,7 @@
           <label for="ButtonText">Button Text</label>
         </div>
         <div class="form-floating mb-3">
-          <textarea class="form-control" formControlName="saying" id="Saying" style="height: 100px"></textarea>
+          <textarea class="form-control" formControlName="saying" id="Saying" style="height: 10rem"></textarea>
           <label for="Saying">Saying</label>
         </div>
 

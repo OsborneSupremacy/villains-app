@@ -24,6 +24,8 @@ export class VillainEditComponent implements OnInit {
 
   villain: Villain | undefined;
 
+  private image: File | undefined;
+
   constructor(
     private route: ActivatedRoute,
     private villainService: VillainService,
@@ -60,5 +62,26 @@ export class VillainEditComponent implements OnInit {
           }
         );
     });
+  }
+
+  public async onSubmit({ value, valid }: { value: Villain, valid: boolean }) {
+    if (!valid) return;
+
+    value.id = this.villain!.id;
+
+    if (this.image != null) {
+      console.log('Upload image');
+      //let imageUploadResult = await this.imageService.AddAsync(this.image);
+      //value.imageName = imageUploadResult.newFileName;
+    }
+    else
+    {
+      // if we're not uploading a new image, preserve the exsiting image name
+      value.imageName = this.villain!.imageName;
+    }
+
+    value.imageName = this.villain!.imageName; // get rid of this once the image upload is working
+    await this.villainService.UpdateAsync(value);
+    await this.router.navigate(['/']);
   }
 }
