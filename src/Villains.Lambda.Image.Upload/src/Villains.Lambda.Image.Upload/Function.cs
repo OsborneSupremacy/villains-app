@@ -43,7 +43,7 @@ public class Function
         var imageService = new ImageService(new AmazonS3Client());
 
         var result = await imageService
-            .UploadImageAsync(uploadRequest, CancellationToken.None);
+            .UploadImageAsync(uploadRequest, context, CancellationToken.None);
 
         return result.IsSuccess switch
         {

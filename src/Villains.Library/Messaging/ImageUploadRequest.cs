@@ -21,8 +21,6 @@ public class ImageUploadRequestValidator : AbstractValidator<ImageUploadRequest>
     public ImageUploadRequestValidator()
     {
         RuleFor(x => x.FileName).NotEmpty();
-        RuleFor(x => x.Base64EncodedImage)
-            .NotEmpty()
-            .Must(x => x.EndsWith("=="));
+        RuleFor(x => x.Base64EncodedImage).NotEmpty();
     }
 }

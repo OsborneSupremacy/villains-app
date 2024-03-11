@@ -24,7 +24,9 @@ export class VillainEditComponent implements OnInit {
 
   villain: Villain | undefined;
 
-  private image: File | undefined;
+  imageFileName: string = '';
+  replaceImage: boolean = false;
+  base64Image: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -64,24 +66,38 @@ export class VillainEditComponent implements OnInit {
     });
   }
 
-  public async onSubmit({ value, valid }: { value: Villain, valid: boolean }) {
+  public async onSubmit({value, valid}: { value: Villain, valid: boolean }) {
     if (!valid) return;
 
     value.id = this.villain!.id;
 
-    if (this.image != null) {
-      console.log('Upload image');
-      //let imageUploadResult = await this.imageService.AddAsync(this.image);
-      //value.imageName = imageUploadResult.newFileName;
-    }
-    else
-    {
-      // if we're not uploading a new image, preserve the exsiting image name
+    if (this.replaceImage) {
+      const imageUploadResult = await this.imageService
+        .AddAsync(this.imageFileName, this.base64Image);
+      value.imageName = imageUploadResult.fileName;
+    } else {
       value.imageName = this.villain!.imageName;
     }
 
-    value.imageName = this.villain!.imageName; // get rid of this once the image upload is working
     await this.villainService.UpdateAsync(value);
     await this.router.navigate(['/']);
+  }
+
+  public fileChange(event: any) {
+
+    let fileList: FileList = event.target.files;
+
+    if (fileList.length <= 0) {
+      this.replaceImage = false;
+      return;
+    }
+
+    let reader = new FileReader();
+    reader.readAsDataURL(fileList[0]);
+    reader.onload = () => {
+      this.base64Image = reader.result as string;
+      this.replaceImage = true;
+      this.imageFileName = fileList[0].name;
+    }
   }
 }

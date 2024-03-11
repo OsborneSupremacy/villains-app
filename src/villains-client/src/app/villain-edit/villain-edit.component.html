@@ -27,7 +27,7 @@
           <label for="Power">Power</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="file" class="form-control" accept="image/*" id="Image">
+          <input type="file" class="form-control" accept="image/*" (change)="fileChange($event)" id="Image">
           <label for="Image">Image</label>
         </div>
         <div class="form-floating mb-3">

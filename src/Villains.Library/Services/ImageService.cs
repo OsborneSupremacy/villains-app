@@ -1,11 +1,12 @@
 using System.Net;
 using System.Reflection;
+using Amazon.Lambda.Core;
 using Amazon.S3;
 using Amazon.S3.Model;
 
 namespace Villains.Library.Services;
 
-public class ImageService : IImageService
+public class ImageService
 {
     private readonly IAmazonS3 _s3Client;
 
@@ -88,6 +89,7 @@ public class ImageService : IImageService
 
     public async Task<Result<ImageUploadResponse>> UploadImageAsync(
         ImageUploadRequest imageUploadRequest,
+        ILambdaContext context,
         CancellationToken ct
         )
     {
@@ -98,6 +100,26 @@ public class ImageService : IImageService
 
         var newFileName = $"{Guid.NewGuid()}{ext}";
 
+        var imageBytesResult =
+            Base64Service.GetBytesFromBase64String(imageUploadRequest.Base64EncodedImage);
+
+        if (imageBytesResult.IsFailed)
+        {
+            var errorDetails = $"""
+                                Could not convert base64 string to byte array.
+
+                                Received Base64EncodedImage:
+
+                                -------BEGIN-----------------------------------------
+                                {imageUploadRequest.Base64EncodedImage}
+                                -------END-------------------------------------------
+
+                                """;
+
+            context.Logger.LogError(errorDetails);
+            return Result.Fail(imageBytesResult.Errors);
+        }
+
         // need to resize image here
         // change dimensions to square, etc.
 
@@ -105,7 +127,7 @@ public class ImageService : IImageService
         {
             BucketName = "villains-images",
             Key = newFileName,
-            InputStream = new MemoryStream(Convert.FromBase64String(imageUploadRequest.Base64EncodedImage))
+            InputStream = new MemoryStream(imageBytesResult.Value)
         };
 
         await _s3Client.PutObjectAsync(request, ct);

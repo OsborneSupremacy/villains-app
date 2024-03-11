@@ -4,7 +4,7 @@ using Amazon.DynamoDBv2.Model;
 
 namespace Villains.Library.Services;
 
-public class VillainsService : IVillainsService
+public class VillainsService
 {
     private readonly IAmazonDynamoDB _dynamoDbClient;
 

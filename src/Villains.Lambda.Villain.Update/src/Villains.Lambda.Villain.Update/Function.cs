@@ -19,7 +19,8 @@ public class Function
         if (villainRequest == null)
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int)HttpStatusCode.BadRequest
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Headers = CorsHeaderService.GetCorsHeaders()
             };
 
         var validationResult = await new EditVillainValidator()
@@ -29,7 +30,8 @@ public class Function
             return new APIGatewayProxyResponse
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
-                Body = JsonService.SerializeDefault(validationResult.Errors)
+                Body = JsonService.SerializeDefault(validationResult.Errors),
+                Headers = CorsHeaderService.GetCorsHeaders()
             };
 
         var villainService = new VillainsService(new AmazonDynamoDBClient());
