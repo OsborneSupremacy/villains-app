@@ -1,1 +1,37 @@
-<p>villain-add works!</p>
+<div class="container-fluid">
+  <h1>Add Villain</h1>
+
+  <div class="row">
+
+    <div class="col-md-12">
+      <form novalidate (ngSubmit)="onSubmit(villainFg)" [formGroup]="villainFg">
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" formControlName="name" id="Name"/>
+          <label for="Name">Name</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" formControlName="powers" id="Power"/>
+          <label for="Power">Power</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="file" class="form-control" accept="image/*" (change)="fileChange($event)" id="Image" formControlName="image" >
+          <label for="Image">Image</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" formControlName="buttonText" id="ButtonText"/>
+          <label for="ButtonText">Button Text</label>
+        </div>
+        <div class="form-floating mb-3">
+          <textarea class="form-control" formControlName="saying" id="Saying" style="height: 10rem"></textarea>
+          <label for="Saying">Saying</label>
+        </div>
+
+        <button type="submit" class="btn btn-dark" [disabled]="villainFg.invalid">Submit</button>&nbsp;
+        <a class="btn btn-sm btn-secondary" [routerLink]="['/']">Cancel</a>
+
+      </form>
+    </div>
+
+  </div>
+</div>

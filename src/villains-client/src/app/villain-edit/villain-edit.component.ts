@@ -4,7 +4,7 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {VillainService} from "../services/villain.service";
 import {ImageService} from "../services/image.service";
 import {NgForOf, NgIf} from "@angular/common";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-villain-edit',
@@ -43,7 +43,7 @@ export class VillainEditComponent implements OnInit {
       name: [this.villain?.name, [Validators.required]],
       powers: [this.villain?.powers, [Validators.required]],
       buttonText: [this.villain?.buttonText, [Validators.required]],
-      saying: [this.villain?.saying, [Validators.required]],
+      saying: [this.villain?.saying, [Validators.required]]
     });
   }
 
@@ -67,7 +67,8 @@ export class VillainEditComponent implements OnInit {
   }
 
   public async onSubmit({value, valid}: { value: Villain, valid: boolean }) {
-    if (!valid) return;
+    if (!valid)
+      return;
 
     value.id = this.villain!.id;
 
