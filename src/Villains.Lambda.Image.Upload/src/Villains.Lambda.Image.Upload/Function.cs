@@ -45,17 +45,43 @@ public class Function
         var result = await imageService
             .UploadImageAsync(uploadRequest, context, CancellationToken.None);
 
-        return result.IsSuccess switch
-        {
-            true => new APIGatewayProxyResponse
+
+        if (result.IsSuccess)
+            return new APIGatewayProxyResponse
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 Headers = CorsHeaderService.GetCorsHeaders(),
                 Body = JsonService.SerializeDefault(result.Value)
-            },
-            false => result.HasException<InvalidOperationException>()
-                ? new APIGatewayProxyResponse { StatusCode = (int)HttpStatusCode.UnsupportedMediaType }
-                : new APIGatewayProxyResponse { StatusCode = (int)HttpStatusCode.InternalServerError }
+            };
+
+        if (result.HasException<InvalidOperationException>())
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
+                Headers = CorsHeaderService.GetCorsHeaders(),
+                Body = JsonService.SerializeDefault(result.Errors)
+            };
+
+        if (result.HasException<ArgumentException>())
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Headers = CorsHeaderService.GetCorsHeaders(),
+                Body = JsonService.SerializeDefault(result.Errors)
+            };
+
+        var errorMessage = $"""
+                            An unexpected type of exception occurred. Details:
+
+                            {result.Errors}
+                            """;
+
+        context.Logger.LogError(errorMessage);
+
+        return new APIGatewayProxyResponse
+        {
+            StatusCode = (int)HttpStatusCode.InternalServerError,
+            Headers = CorsHeaderService.GetCorsHeaders()
         };
     }
 }

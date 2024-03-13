@@ -10,7 +10,7 @@ public class ImageService
 {
     private readonly IAmazonS3 _s3Client;
 
-    private const int MaxPayloadSize = 6291556;
+    public const int MaxPayloadSize = 6291556;
 
     public ImageService(IAmazonS3 s3Client)
     {

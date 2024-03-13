@@ -27,4 +27,15 @@
       <ProjectReference Include="..\Villains.Library\Villains.Library.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\metal-sonic.gif" />
+      <EmbeddedResource Include="Resources\metal-sonic.gif">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="Resources\shadow.gif" />
+      <EmbeddedResource Include="Resources\shadow.gif">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

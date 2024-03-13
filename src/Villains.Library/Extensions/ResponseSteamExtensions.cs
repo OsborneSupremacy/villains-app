@@ -9,8 +9,11 @@ internal static class ResponseSteamExtensions
         return memoryStream.ToArray();
     }
 
-    public static async Task<string> ToBase64StringAsync(this Stream stream, CancellationToken ct) =>
-        Convert.ToBase64String(await ToByteArrayAsync(stream, ct));
+    public static async Task<string> ToBase64StringAsync(this Stream stream, CancellationToken ct)
+    {
+        stream.Position = 0;
+        return Convert.ToBase64String(await ToByteArrayAsync(stream, ct));
+    }
 
     public static async Task<string> ToImgSrcAsync(this Stream stream, string contentType, CancellationToken ct) =>
         $"data:{contentType};base64,{await stream.ToBase64StringAsync(ct)}";
