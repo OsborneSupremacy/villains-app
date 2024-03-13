@@ -1,11 +1,7 @@
-using System.Reflection;
-using SixLabors.ImageSharp;
-
 namespace Villains.Library.Tests.Services;
 
 public class GifServiceTests
 {
-
     [Fact]
     public async Task Resample_ImageIsUnderMax_Succeeds()
     {
@@ -17,13 +13,20 @@ public class GifServiceTests
         var image = await Image.LoadAsync(imageStream!);
 
         // act
-        var resampledImageResult = GifService.Resample(image, ImageService.MaxPayloadSize);
+        var message = new GifService()
+            .Resample(new ImageProcessMessage
+            {
+                OriginalImageBytes = null,
+                ModifiedImage = image,
+                ModifiedImageStream = null,
+                Modified = true,
+                MaxBytes = ImageService.MaxPayloadSize,
+                ImageName = "metal-sonic.gif"
+            });
 
         // assert
-        resampledImageResult.IsSuccess.Should().BeTrue();
-        // base64 changes because Image is encoded to stream, using
-        // a Gif encoder not necessarily the same as the original, so the
-        // base64 string will most likely be different.
+        message.ModifiedImageStream.Should().NotBeNull();
+        message.ModifiedImageStream!.Length.Should().BeLessThan(ImageService.MaxPayloadSize);
     }
 
     [Fact]
@@ -37,9 +40,19 @@ public class GifServiceTests
         var image = await Image.LoadAsync(imageStream!);
 
         // act
-        var resampledImageResult = GifService.Resample(image, ImageService.MaxPayloadSize);
+        var message = new GifService()
+            .Resample(new ImageProcessMessage
+            {
+                OriginalImageBytes = null,
+                ModifiedImage = image,
+                ModifiedImageStream = null,
+                Modified = true,
+                MaxBytes = ImageService.MaxPayloadSize,
+                ImageName = "shadow.gif"
+            });
 
         // assert
-        resampledImageResult.IsSuccess.Should().BeTrue();
+        message.ModifiedImageStream.Should().NotBeNull();
+        message.ModifiedImageStream!.Length.Should().BeLessThan(ImageService.MaxPayloadSize);
     }
 }

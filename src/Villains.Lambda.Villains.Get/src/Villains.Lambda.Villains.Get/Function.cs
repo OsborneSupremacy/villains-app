@@ -1,5 +1,4 @@
 using System.Net;
-using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;

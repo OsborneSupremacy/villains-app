@@ -3,14 +3,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace Villains.Library.Services;
 
-public static class ImageResizeService
+internal static class MakeImageSquareService
 {
-    public static Image Edit(byte[] imageIn)
+    public static ImageProcessMessage Edit(ImageProcessMessage request)
     {
-        var imageOut = Image.Load(imageIn);
+        var imageOut = Image.Load(request.OriginalImageBytes);
 
         if (imageOut.Width == imageOut.Height)
-            return imageOut;
+            return request with { Modified = false, ModifiedImage = null };
 
         var longerEdge = imageOut.Width > imageOut.Height
             ? imageOut.Width
@@ -23,6 +23,11 @@ public static class ImageResizeService
                 Size = new Size(longerEdge, longerEdge),
             }));
 
-        return imageOut;
+        return request with
+        {
+            OriginalImageBytes = null,
+            Modified = true,
+            ModifiedImage = imageOut
+        };
     }
 }

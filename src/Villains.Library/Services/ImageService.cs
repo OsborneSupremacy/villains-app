@@ -1,5 +1,4 @@
 using System.Net;
-using System.Reflection;
 using Amazon.Lambda.Core;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -120,14 +119,25 @@ public class ImageService
             return Result.Fail(imageBytesResult.Errors);
         }
 
-        // need to resize image here
-        // change dimensions to square, etc.
+        var imageMessage = MakeImageSquareService.Edit(new ImageProcessMessage
+        {
+            OriginalImageBytes = imageBytesResult.Value,
+            Modified = false,
+            ModifiedImage = null,
+            ModifiedImageStream = null,
+            MaxBytes = MaxPayloadSize,
+            ImageName = imageUploadRequest.FileName
+        });
+
+        if (ext.Equals(".gif"))
+            imageMessage = new GifService().Resample(imageMessage);
 
         var request = new PutObjectRequest
         {
             BucketName = "villains-images",
             Key = newFileName,
-            InputStream = new MemoryStream(imageBytesResult.Value)
+            InputStream = imageMessage.ModifiedImageStream
+                          ?? new MemoryStream(imageBytesResult.Value)
         };
 
         await _s3Client.PutObjectAsync(request, ct);

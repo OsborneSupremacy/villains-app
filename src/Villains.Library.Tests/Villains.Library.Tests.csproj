@@ -36,6 +36,15 @@
       <EmbeddedResource Include="Resources\shadow.gif">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
+      <None Remove="Resources\sunny.png" />
+      <None Remove="Resources\square.png" />
+      <EmbeddedResource Include="Resources\square.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="Resources\rectangle.png" />
+      <EmbeddedResource Include="Resources\rectangle.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
