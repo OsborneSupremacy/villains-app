@@ -1,12 +1,11 @@
 resource "aws_s3_bucket" "villains-images" {
   bucket = "villains-images"
-  tags = {
-    Name        = "villains-images"
-    Environment = "live"
-    Application = "villains"
-    ManagedBy   = "terraform"
-    Owner       = "villains@osbornesupremacy.com"
-  }
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "villains-images"
+    }
+  )
 }
 
 resource "aws_s3_bucket_versioning" "versioning_example" {
