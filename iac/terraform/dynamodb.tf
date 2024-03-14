@@ -7,4 +7,5 @@ resource "aws_dynamodb_table" "villains" {
       Name = "villains"
     }
   )
+  hash_key = "id"
 }
