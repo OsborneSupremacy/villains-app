@@ -21,3 +21,8 @@ resource "aws_iam_role" "exec-role" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "exec-role-attachment-lambda-basic-execution" {
+  role       = aws_iam_role.exec-role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}

@@ -1,4 +1,4 @@
-module "lambda" {
+module "lambda" { // need to rename this module
   source      = "./modules/lambda"
   common_tags = local.common_tags
   environment_variables = {
