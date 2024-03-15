@@ -14,11 +14,11 @@ module "lambda" {
 }
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-full" {
-  role       = module.lambda.function_exec_role_arn
+  role       = module.lambda.function_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-execution" {
-  role       = module.lambda.function_exec_role_arn
+  role       = module.lambda.function_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole"
 }

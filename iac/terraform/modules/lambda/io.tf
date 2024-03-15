@@ -39,6 +39,6 @@ locals {
 
 # outputs
 
-output "function_exec_role_arn" {
-  value = aws_iam_role.exec-role.arn
+output "function_exec_role" {
+  value = aws_iam_role.exec-role
 }
