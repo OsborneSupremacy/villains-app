@@ -21,13 +21,3 @@ resource "aws_iam_role" "exec-role" {
     ]
   })
 }
-
-resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-full" {
-  role       = aws_iam_role.exec-role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-execution" {
-  role       = aws_iam_role.exec-role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole"
-}

@@ -12,3 +12,13 @@ module "lambda" {
   function_name              = "villain-create"
   function_project_directory = "../../src/Villains.Lambda.Create/src/Villains.Lambda.Villain.Create"
 }
+
+resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-full" {
+  role       = module.lambda.function_exec_role_arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-execution" {
+  role       = module.lambda.function_exec_role_arn
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole"
+}

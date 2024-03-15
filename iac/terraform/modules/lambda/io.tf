@@ -1,3 +1,5 @@
+# inputs
+
 variable "function_name" {
   type = string
 }
@@ -33,4 +35,10 @@ locals {
     EOT
   build_output_path = "${var.function_project_directory}/bin/publish"
   publish_zip_path  = "${var.function_project_directory}/bin/lambda_function.zip"
+}
+
+# outputs
+
+output "function_exec_role_arn" {
+  value = aws_iam_role.exec-role.arn
 }
