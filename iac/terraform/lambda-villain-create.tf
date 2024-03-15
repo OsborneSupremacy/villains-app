@@ -1,19 +1,20 @@
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name = "villain-create"
-  description   = "Create a villain"
-  handler       = "Villains.Lambda.Villain.Create::Villains.Lambda.Villain.Create.Function::FunctionHandler"
-  runtime       = "dotnet8"
-  architectures = ["arm64"]
-  memory_size   = 512
-  source_path   = "../../src/Villains.Lambda.Create/src/Villains.Lambda.Villain.Create"
-  create_role   = false
-  lambda_role   = aws_iam_role.villain-create-exec-role.arn
+  function_name                     = "villain-create"
+  description                       = "Create a villain"
+  handler                           = "Villains.Lambda.Villain.Create::Villains.Lambda.Villain.Create.Function::FunctionHandler"
+  runtime                           = "dotnet8"
+  architectures                     = ["arm64"]
+  memory_size                       = 512
+  source_path                       = "../../src/Villains.Lambda.Create/src/Villains.Lambda.Villain.Create"
+  create_role                       = false
+  lambda_role                       = aws_iam_role.villain-create-exec-role.arn
+  logging_log_group                 = "/aws/lambda/villain/create"
 
   environment_variables = {
-    "TABLE_NAME" = aws_dynamodb_table.villains.name
-    "BUCKET_NAME" = aws_s3_bucket.villains-images.bucket
+    "TABLE_NAME"        = aws_dynamodb_table.villains.name
+    "BUCKET_NAME"       = aws_s3_bucket.villains-images.bucket
     "MAX_PAYLOAD_BYTES" = 6291556
   }
 
@@ -51,7 +52,7 @@ resource "aws_iam_role" "villain-create-exec-role" {
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-full" {
   role       = aws_iam_role.villain-create-exec-role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonDynamoDBFullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-execution" {
