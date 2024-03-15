@@ -54,6 +54,8 @@ export class VillainAddComponent {
       .AddAsync(this.imageFileName, this.base64Image);
     value.imageName = imageUploadResult.fileName;
 
+    console.log('New Villain:', value);
+
     await this.villainService.AddAsync(value);
     await this.router.navigate(['/']);
   }

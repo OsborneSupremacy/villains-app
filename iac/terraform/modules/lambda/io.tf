@@ -16,6 +16,11 @@ variable "function_memory_size" {
   type = number
 }
 
+variable "function_timeout" {
+  type = number
+  default = 30
+}
+
 variable "function_project_directory" {
   type = string
 }

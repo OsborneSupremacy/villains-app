@@ -6,6 +6,7 @@ resource "aws_lambda_function" "lambda" {
   runtime          = "dotnet8"
   architectures    = ["arm64"]
   memory_size      = var.function_memory_size
+  timeout          = var.function_timeout
   filename         = data.archive_file.lambda_function.output_path
   source_code_hash = data.archive_file.lambda_function.output_base64sha256
   role             = aws_iam_role.exec-role.arn
