@@ -1,4 +1,4 @@
-module "lambda-villian-create" {
+module "lambda-villain-create" {
   source      = "./modules/lambda"
   common_tags = local.common_tags
   environment_variables = {
@@ -14,11 +14,11 @@ module "lambda-villian-create" {
 }
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-full" {
-  role       = module.lambda-villian-create.function_exec_role.name
+  role       = module.lambda-villain-create.function_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-execution" {
-  role       = module.lambda-villian-create.function_exec_role.name
+  role       = module.lambda-villain-create.function_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole"
 }
