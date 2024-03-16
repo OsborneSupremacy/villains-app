@@ -30,6 +30,10 @@ resource "aws_api_gateway_rest_api" "villains-gateway" {
   })
 }
 
+resource "aws_api_gateway_deployment" "default" {
+  rest_api_id = aws_api_gateway_rest_api.villains-gateway.id
+}
+
 /*
 resource "aws_iam_role" "cloudwatch-role" {
   name = "villains-gateway-cloudwatch-role"
