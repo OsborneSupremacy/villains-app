@@ -19,11 +19,22 @@ resource "aws_iam_role_policy_attachment" "villain-image-get-exec-role-attachmen
 }
 
 resource "aws_api_gateway_method" "villain-image-get-method" {
-  rest_api_id    = aws_api_gateway_rest_api.villains-gateway.id
-  resource_id    = aws_api_gateway_resource.image-resource.id
-  http_method    = "GET"
-  authorization  = "NONE"
-  operation_name = "GetVillainImage"
+  rest_api_id          = aws_api_gateway_rest_api.villains-gateway.id
+  resource_id          = aws_api_gateway_resource.image-resource.id
+  http_method          = "GET"
+  authorization        = "NONE"
+  operation_name       = "GetVillainImage"
+  request_validator_id = aws_api_gateway_request_validator.villain-image-get-request-validator.id
+  request_parameters = {
+    "method.request.querystring.imageName" = true
+  }
+}
+
+resource "aws_api_gateway_request_validator" "villain-image-get-request-validator" {
+  name                        = "villain-image-get-request-validator"
+  rest_api_id                 = aws_api_gateway_rest_api.villains-gateway.id
+  validate_request_body       = false
+  validate_request_parameters = true
 }
 
 resource "aws_api_gateway_integration" "villain-image-get-integration" {
@@ -35,12 +46,3 @@ resource "aws_api_gateway_integration" "villain-image-get-integration" {
   uri                     = module.lambda-villain-image-get.lambda_function_invoke_arn
   content_handling        = "CONVERT_TO_TEXT"
 }
-
-/*
-resource "aws_api_gateway_request_validator" "villain-image-get-request-validator" {
-  name                        = "villain-image-get-request-validator"
-  rest_api_id                 = aws_api_gateway_rest_api.villains-gateway.id
-  validate_request_body       = false
-  validate_request_parameters = true
-}
-*/
