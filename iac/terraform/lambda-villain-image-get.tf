@@ -46,3 +46,47 @@ resource "aws_api_gateway_integration" "villain-image-get-integration" {
   uri                     = module.lambda-villain-image-get.lambda_function_invoke_arn
   content_handling        = "CONVERT_TO_TEXT"
 }
+
+resource "aws_api_gateway_model" "image-get-response" {
+  rest_api_id  = aws_api_gateway_rest_api.villains-gateway.id
+  name         = "ImageGetResponse"
+  description  = "The response model for the GetVillainImage method."
+  content_type = "application/json"
+  schema = jsonencode({
+    "$schema" : "http://json-schema.org/draft-04/schema#",
+    "type" : "object",
+    "properties" : {
+      "exists" : {
+        "type" : "boolean",
+        "description" : "Whether or not the image exists."
+      },
+      "imageSrc" : {
+        "type" : "string",
+        "description" : "The base64 encoded image file, including the `data:image` prefix (with mime type), so that it can be used as an image src value."
+      },
+      "fileName" : {
+        "type" : "string",
+        "description" : "The name of the image file."
+      }
+    },
+    "required" : ["exists", "imageSrc", "fileName"]
+    }
+  )
+}
+
+resource "aws_api_gateway_method_response" "villain_image_get_response" {
+  rest_api_id = aws_api_gateway_rest_api.villains-gateway.id
+  resource_id = aws_api_gateway_resource.image-resource.id
+  http_method = aws_api_gateway_method.villain-image-get-method.http_method
+  status_code = "200"
+  response_models = {
+    "application/json" = aws_api_gateway_model.image-get-response.name
+  }
+}
+
+resource "aws_api_gateway_method_response" "villain_image_get_404_response" {
+  rest_api_id = aws_api_gateway_rest_api.villains-gateway.id
+  resource_id = aws_api_gateway_resource.image-resource.id
+  http_method = aws_api_gateway_method.villain-image-get-method.http_method
+  status_code = "404"
+}
