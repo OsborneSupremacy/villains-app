@@ -6,6 +6,9 @@ module "lambda-villains-get" {
     "BUCKET_NAME"       = aws_s3_bucket.villains-images.bucket
     "MAX_PAYLOAD_BYTES" = 6291556
   }
+  gateway_rest_api_id        = aws_api_gateway_rest_api.villains-gateway.id
+  gateway_resource_id        = "" //aws_api_gateway_resource.image-resource.id
+  gateway_http_method        = "" // aws_api_gateway_method.villain-image-get-method.http_method
   function_description       = "Get villains"
   function_handler           = "Villains.Lambda.Villains.Get::Villains.Lambda.Villains.Get.Function::FunctionHandler"
   function_memory_size       = 512

@@ -1,4 +1,15 @@
 # inputs
+variable "gateway_rest_api_id" {
+  type = string
+}
+
+variable "gateway_resource_id" {
+  type = string
+}
+
+variable "gateway_http_method" {
+  type = string
+}
 
 variable "function_name" {
   type = string
@@ -31,6 +42,11 @@ variable "common_tags" {
 
 variable "environment_variables" {
   type = map(string)
+}
+
+variable "include_404_response" {
+  type = bool
+  default = false
 }
 
 locals {
