@@ -2,13 +2,13 @@ resource "aws_lambda_function" "lambda" {
 
   function_name    = var.function_name
   description      = var.function_description
-  handler          = var.function_handler
+  handler          = "Villains.Library::Villains.Library.Lambda.${var.function_net_class}::FunctionHandler"
   runtime          = "dotnet8"
   architectures    = ["arm64"]
   memory_size      = var.function_memory_size
   timeout          = var.function_timeout
-  filename         = data.archive_file.lambda_function.output_path
-  source_code_hash = data.archive_file.lambda_function.output_base64sha256
+  filename         = var.deployment_package_filename
+  source_code_hash = var.deployment_package_source_code_hash
   role             = aws_iam_role.exec-role.arn
   environment {
     variables = var.environment_variables
@@ -20,6 +20,4 @@ resource "aws_lambda_function" "lambda" {
       Name = var.function_name
     }
   )
-
-  depends_on = [null_resource.build]
 }

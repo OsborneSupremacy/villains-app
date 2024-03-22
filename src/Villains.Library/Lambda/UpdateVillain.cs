@@ -1,16 +1,6 @@
-using System.Net;
-using Amazon.DynamoDBv2;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Core;
-using Villains.Library.Models;
-using Villains.Library.Services;
+namespace Villains.Library.Lambda;
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-
-namespace Villains.Lambda.Villain.Update;
-
-public class Function
+public class UpdateVillain
 {
     public static async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
     {

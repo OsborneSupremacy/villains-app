@@ -16,10 +16,11 @@ module "lambda-villain-image-upload" {
   good_response_model_description          = ""
   good_response_model_schema_file_location = ""
   function_description                     = "Upload a villain's image"
-  function_handler                         = "Villains.Lambda.Image.Upload::Villains.Lambda.Image.Upload.Function::FunctionHandler"
   function_memory_size                     = 512
   function_name                            = "villain-image-upload"
-  function_project_directory               = "../../src/Villains.Lambda.Image.Upload/src/Villains.Lambda.Image.Upload"
+  function_net_class                       = "UploadImage"
+  deployment_package_filename              = data.archive_file.lambda_function.output_path
+  deployment_package_source_code_hash      = data.archive_file.lambda_function.output_base64sha256
 }
 
 resource "aws_iam_role_policy_attachment" "villain-image-upload-exec-role-attachment-lambda-execute" {

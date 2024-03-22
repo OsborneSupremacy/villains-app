@@ -25,11 +25,12 @@ variable "function_name" {
   type = string
 }
 
-variable "function_description" {
+variable "function_net_class" {
+  description = "The name of the .NET class that contains the handler function (FunctionHandler is the assumed method name)"
   type = string
 }
 
-variable "function_handler" {
+variable "function_description" {
   type = string
 }
 
@@ -40,10 +41,6 @@ variable "function_memory_size" {
 variable "function_timeout" {
   type = number
   default = 30
-}
-
-variable "function_project_directory" {
-  type = string
 }
 
 variable "common_tags" {
@@ -71,13 +68,14 @@ variable "good_response_model_schema_file_location" {
   type = string
 }
 
-locals {
-  build_command     = <<EOT
-      cd ${var.function_project_directory}
-      dotnet publish -o bin/publish -c Release --framework "net8.0" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-arm64 --self-contained false
-    EOT
-  build_output_path = "${var.function_project_directory}/bin/publish"
-  publish_zip_path  = "${var.function_project_directory}/bin/lambda_function.zip"
+variable "deployment_package_filename" {
+  description = "Path to the function's deployment package within the local filesystem. "
+  type = string
+}
+
+variable "deployment_package_source_code_hash" {
+  description = "Base64-encoded representation of the SHA256 hash of the deployment package."
+  type = string
 }
 
 # outputs

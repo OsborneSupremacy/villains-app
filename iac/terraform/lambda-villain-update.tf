@@ -16,10 +16,11 @@ module "lambda-villain-update" {
   good_response_model_description          = ""
   good_response_model_schema_file_location = ""
   function_description                     = "Update a villain"
-  function_handler                         = "Villains.Lambda.Villain.Update::Villains.Lambda.Villain.Update.Function::FunctionHandler"
   function_memory_size                     = 512
   function_name                            = "villain-update"
-  function_project_directory               = "../../src/Villains.Lambda.Villain.Update/src/Villains.Lambda.Villain.Update"
+  function_net_class                       = "UpdateVillain"
+  deployment_package_filename              = data.archive_file.lambda_function.output_path
+  deployment_package_source_code_hash      = data.archive_file.lambda_function.output_base64sha256
 }
 
 resource "aws_iam_role_policy_attachment" "villain-update-exec-role-attachment-dynamodb-full" {

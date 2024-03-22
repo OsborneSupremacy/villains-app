@@ -1,16 +1,6 @@
-using System.Net;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Core;
-using Amazon.S3;
-using Villains.Library.Messaging;
-using Villains.Library.Services;
+namespace Villains.Library.Lambda;
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-
-namespace Villains.Lambda.Image.Upload;
-
-public class Function
+public class UploadImage
 {
     /// <summary>
     /// Function to upload an image to S3.
@@ -44,7 +34,6 @@ public class Function
 
         var result = await imageService
             .UploadImageAsync(uploadRequest, context, CancellationToken.None);
-
 
         if (result.IsSuccess)
             return new APIGatewayProxyResponse

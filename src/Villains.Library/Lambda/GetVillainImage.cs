@@ -1,15 +1,6 @@
-using System.Net;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Core;
-using Amazon.S3;
-using Villains.Library.Services;
+namespace Villains.Library.Lambda;
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-
-namespace Villains.Lambda.Image.Get;
-
-public class Function
+public class GetVillainImage
 {
     /// <summary>
     /// Retrieves an image from S3 and returns it as a base64-encoded string.

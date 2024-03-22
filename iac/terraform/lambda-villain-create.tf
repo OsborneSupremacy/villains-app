@@ -16,10 +16,11 @@ module "lambda-villain-create" {
   good_response_model_description          = ""
   good_response_model_schema_file_location = ""
   function_description                     = "Create a villain"
-  function_handler                         = "Villains.Lambda.Villain.Create::Villains.Lambda.Villain.Create.Function::FunctionHandler"
   function_memory_size                     = 512
   function_name                            = "villain-create"
-  function_project_directory               = "../../src/Villains.Lambda.Create/src/Villains.Lambda.Villain.Create"
+  function_net_class                       = "CreateVillain"
+  deployment_package_filename              = data.archive_file.lambda_function.output_path
+  deployment_package_source_code_hash      = data.archive_file.lambda_function.output_base64sha256
 }
 
 resource "aws_iam_role_policy_attachment" "villain-create-exec-role-attachment-dynamodb-full" {

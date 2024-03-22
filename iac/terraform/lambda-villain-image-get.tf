@@ -16,12 +16,13 @@ module "lambda-villain-image-get" {
   include_404_response                     = true
   good_response_model_name                 = "ImageGetResponse"
   good_response_model_description          = "The response model for the GetVillainImage method."
-  good_response_model_schema_file_location = "../../src/Villains.Lambda.Image.Get/src/Villains.Lambda.Image.Get/schema/image-get-response.schema.json"
+  good_response_model_schema_file_location = "../../src/Villains.Library/Schema/image-get-response.schema.json"
   function_description                     = "Get a villain's image"
-  function_handler                         = "Villains.Lambda.Image.Get::Villains.Lambda.Image.Get.Function::FunctionHandler"
   function_memory_size                     = 2048
   function_name                            = "villain-image-get"
-  function_project_directory               = "../../src/Villains.Lambda.Image.Get/src/Villains.Lambda.Image.Get"
+  function_net_class                       = "GetVillainImage"
+  deployment_package_filename              = data.archive_file.lambda_function.output_path
+  deployment_package_source_code_hash      = data.archive_file.lambda_function.output_base64sha256
 }
 
 resource "aws_iam_role_policy_attachment" "villain-image-get-exec-role-attachment-lambda-execute" {
