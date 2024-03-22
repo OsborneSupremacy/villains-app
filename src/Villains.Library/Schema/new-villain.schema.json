@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the villain."
+    },
+    "powers": {
+      "type": "string",
+      "description": "The powers of the villain."
+    },
+    "imageName": {
+      "type": "string",
+      "description": "The name of the image file associated with the villain."
+    },
+    "buttonText": {
+      "type": "string",
+      "description": "The text to display on the button."
+    },
+    "saying": {
+      "type": "string",
+      "description": "The saying of the villain."
+    }
+  },
+  "required": [
+    "name",
+    "powers",
+    "imageName",
+    "buttonText",
+    "saying"
+  ]
+}

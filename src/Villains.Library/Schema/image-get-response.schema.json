@@ -1,19 +1,23 @@
 {
-  "$schema" : "http://json-schema.org/draft-04/schema#",
-  "type" : "object",
-  "properties" : {
-    "exists" : {
-      "type" : "boolean",
-      "description" : "Whether or not the image exists."
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "exists": {
+      "type": "boolean",
+      "description": "Whether or not the image exists."
     },
-    "imageSrc" : {
-      "type" : "string",
-      "description" : "The base64 encoded image file, including the `data:image` prefix (with mime type), so that it can be used as an image src value."
+    "imageSrc": {
+      "type": "string",
+      "description": "The base64 encoded image file, including the `data:image` prefix (with mime type), so that it can be used as an image src value."
     },
-    "fileName" : {
-      "type" : "string",
-      "description" : "The name of the image file."
+    "fileName": {
+      "type": "string",
+      "description": "The name of the image file."
     }
   },
-  "required" : ["exists", "imageSrc", "fileName"]
+  "required": [
+    "exists",
+    "imageSrc",
+    "fileName"
+  ]
 }

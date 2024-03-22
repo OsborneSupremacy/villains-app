@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "fileName": {
+      "type": "string",
+      "description": "The name of the image file."
+    },
+    "base64EncodedImage": {
+      "type": "string",
+      "description": "The base64 encoded image file.",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "fileName",
+    "base64EncodedImage"
+  ]
+}
