@@ -28,13 +28,3 @@ resource "aws_iam_role_policy_attachment" "villain-image-get-exec-role-attachmen
   role       = module.lambda-villain-image-get.function_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSLambdaExecute"
 }
-
-resource "aws_api_gateway_integration" "villain-image-get-integration" {
-  rest_api_id             = aws_api_gateway_rest_api.villains-gateway.id
-  resource_id             = aws_api_gateway_resource.image-resource.id
-  http_method             = "GET"
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = module.lambda-villain-image-get.lambda_function_invoke_arn
-  content_handling        = "CONVERT_TO_TEXT"
-}
