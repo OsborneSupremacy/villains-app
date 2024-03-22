@@ -52,26 +52,7 @@ resource "aws_api_gateway_model" "image-get-response" {
   name         = "ImageGetResponse"
   description  = "The response model for the GetVillainImage method."
   content_type = "application/json"
-  schema = jsonencode({
-    "$schema" : "http://json-schema.org/draft-04/schema#",
-    "type" : "object",
-    "properties" : {
-      "exists" : {
-        "type" : "boolean",
-        "description" : "Whether or not the image exists."
-      },
-      "imageSrc" : {
-        "type" : "string",
-        "description" : "The base64 encoded image file, including the `data:image` prefix (with mime type), so that it can be used as an image src value."
-      },
-      "fileName" : {
-        "type" : "string",
-        "description" : "The name of the image file."
-      }
-    },
-    "required" : ["exists", "imageSrc", "fileName"]
-    }
-  )
+  schema = file("../../src/Villains.Lambda.Image.Get/src/Villains.Lambda.Image.Get/schema/image-get-response.schema.json")
 }
 
 resource "aws_api_gateway_method_response" "villain_image_get_response" {
