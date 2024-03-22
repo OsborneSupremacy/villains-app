@@ -11,6 +11,20 @@ variable "gateway_http_method" {
   type = string
 }
 
+variable "gateway_http_operation_name" {
+  type = string
+}
+
+variable "gateway_method_request_validator_id" {
+  type = string
+}
+
+variable "gateway_method_request_parameters" {
+  description = "Request parameters for the API Gateway method"
+  type        = map(string)
+  default     = {}
+}
+
 variable "function_name" {
   type = string
 }
@@ -47,6 +61,18 @@ variable "environment_variables" {
 variable "include_404_response" {
   type = bool
   default = false
+}
+
+variable "good_response_model_name" {
+  type = string
+}
+
+variable "good_response_model_description" {
+  type = string
+}
+
+variable "good_response_model_schema_file_location" {
+  type = string
 }
 
 locals {
