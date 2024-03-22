@@ -10,7 +10,6 @@ module "lambda-villain-image-get" {
   gateway_resource_id                 = aws_api_gateway_resource.image-resource.id
   gateway_http_method                 = "GET"
   gateway_http_operation_name         = "GetVillainImage"
-  gateway_method_request_validator_id = aws_api_gateway_request_validator.villain-image-get-request-validator.id
   gateway_method_request_parameters = {
     "method.request.querystring.imageName" = true
   }
@@ -28,13 +27,6 @@ module "lambda-villain-image-get" {
 resource "aws_iam_role_policy_attachment" "villain-image-get-exec-role-attachment-lambda-execute" {
   role       = module.lambda-villain-image-get.function_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSLambdaExecute"
-}
-
-resource "aws_api_gateway_request_validator" "villain-image-get-request-validator" {
-  name                        = "villain-image-get-request-validator"
-  rest_api_id                 = aws_api_gateway_rest_api.villains-gateway.id
-  validate_request_body       = false
-  validate_request_parameters = true
 }
 
 resource "aws_api_gateway_integration" "villain-image-get-integration" {

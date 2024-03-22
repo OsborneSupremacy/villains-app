@@ -15,10 +15,6 @@ variable "gateway_http_operation_name" {
   type = string
 }
 
-variable "gateway_method_request_validator_id" {
-  type = string
-}
-
 variable "gateway_method_request_parameters" {
   description = "Request parameters for the API Gateway method"
   type        = map(string)

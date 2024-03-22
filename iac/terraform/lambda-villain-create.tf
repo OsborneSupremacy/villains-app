@@ -10,7 +10,6 @@ module "lambda-villain-create" {
   gateway_resource_id                      = aws_api_gateway_resource.villain-resource.id
   gateway_http_method                      = "POST"
   gateway_http_operation_name              = ""
-  gateway_method_request_validator_id      = ""
   gateway_method_request_parameters        = {}
   include_404_response                     = false
   good_response_model_name                 = ""
