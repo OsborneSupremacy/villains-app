@@ -1,3 +1,17 @@
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+
+  <div ngbDropdown class="d-inline-block p-1">
+    <button class="btn btn-danger" id="dropdownBasic1" ngbDropdownToggle>Sort</button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+      <button class="dropdown-item" (click)="setSortOrder('default')">Default</button>
+      <button class="dropdown-item" (click)="setSortOrder('asc')">Name (A-Z)</button>
+      <button class="dropdown-item" (click)="setSortOrder('desc')">Name (Z-A)</button>
+    </div>
+  </div>
+
+</nav>
+
 <div class="card-deck" >
 
   <div

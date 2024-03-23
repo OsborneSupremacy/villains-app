@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {Villain} from '../models/villain';
 import {VillainService} from '../services/villain.service';
 import {ImageService} from "../services/image.service";
@@ -12,7 +13,10 @@ import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
     NgForOf,
     NgOptimizedImage,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    NgbDropdown,
+    NgbDropdownMenu,
+    NgbDropdownToggle
   ],
   templateUrl: './villain-selector.component.html',
   styleUrl: './villain-selector.component.scss'
@@ -20,6 +24,28 @@ import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 export class VillainSelectorComponent {
 
   public villains: Villain[];
+
+  public sortOrder: string = 'default';
+
+  setSortOrder(order: string) {
+    this.sortOrder = order;
+    this.sortVillains();
+  }
+
+  private sortVillains() {
+    switch (this.sortOrder) {
+      case 'asc':
+        this.villains.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'desc':
+        this.villains.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      default:
+        // sort the villains in the default order
+        break;
+    }
+  }
+
   public edit(villain: Villain) {
     this.router.navigate(['/', 'villain', 'edit', villain.id]).then(r => {});
   }
