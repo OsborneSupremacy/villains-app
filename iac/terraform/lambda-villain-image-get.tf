@@ -1,11 +1,7 @@
 module "lambda-villain-image-get" {
-  source      = "./modules/lambda"
-  common_tags = local.common_tags
-  environment_variables = {
-    "TABLE_NAME"        = aws_dynamodb_table.villains.name
-    "BUCKET_NAME"       = aws_s3_bucket.villains-images.bucket
-    "MAX_PAYLOAD_BYTES" = 6291556
-  }
+  source                      = "./modules/lambda"
+  common_tags                 = local.common_tags
+  environment_variables       = local.common_environment_variables
   gateway_rest_api_id         = aws_api_gateway_rest_api.villains-gateway.id
   gateway_resource_id         = aws_api_gateway_resource.image-resource.id
   gateway_http_method         = "GET"
@@ -18,7 +14,7 @@ module "lambda-villain-image-get" {
   gateway_method_request_model_schema_file_location = ""
   include_404_response                              = true
   good_response_model_name                          = "ImageGetResponseV2"
-  good_response_model_description                   = "The response model for the GetVillainImage method. A 2.0 model."
+  good_response_model_description                   = "The response model for the GetVillainImage method."
   good_response_model_schema_file_location          = "../../src/Villains.Library/Schema/image-get-response.schema.json"
   function_description                              = "Get a villain's image"
   function_memory_size                              = 2048

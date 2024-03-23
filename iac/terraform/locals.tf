@@ -5,6 +5,11 @@ locals {
     ManagedBy   = "terraform"
     Owner       = "villains@osbornesupremacy.com"
   }
+  common_environment_variables = {
+    "TABLE_NAME"        = aws_dynamodb_table.villains.name
+    "BUCKET_NAME"       = aws_s3_bucket.villains-images.bucket
+    "MAX_PAYLOAD_BYTES" = 6291556
+  }
   project_directory = "../../src/Villains.Library"
   build_command     = <<EOT
       cd ${local.project_directory}
