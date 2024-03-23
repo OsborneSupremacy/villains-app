@@ -12,6 +12,7 @@ variable "gateway_http_method" {
 }
 
 variable "gateway_http_operation_name" {
+  description = "This is the name used for the API Gateway method's SDK operation name. Doesn't appear to make any functional difference."
   type = string
 }
 
@@ -19,6 +20,21 @@ variable "gateway_method_request_parameters" {
   description = "Request parameters for the API Gateway method"
   type        = map(string)
   default     = {}
+}
+
+variable gateway_method_request_model_schema_file_location {
+  description = "Path to the file containing the request model schema within the local filesystem."
+  type = string
+}
+
+variable gateway_method_request_model_name {
+  description = "The name of the request model"
+  type = string
+}
+
+variable gateway_method_request_model_description {
+  description = "The description of the request model"
+  type = string
 }
 
 variable "function_name" {

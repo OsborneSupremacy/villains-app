@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Villain",
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "string",
+      "description": "The unique identifier of the villain."
+    },
+    "Name": {
+      "type": "string",
+      "description": "The name of the villain."
+    },
+    "Powers": {
+      "type": "string",
+      "description": "The powers of the villain."
+    },
+    "ImageName": {
+      "type": "string",
+      "description": "The name of the image file associated with the villain."
+    },
+    "MimeType": {
+      "type": "string",
+      "description": "The MIME type of the image file."
+    },
+    "ButtonText": {
+      "type": "string",
+      "description": "The text to display on the button."
+    },
+    "Saying": {
+      "type": "string",
+      "description": "The saying of the villain."
+    }
+  },
+  "required": ["Id", "Name", "Powers", "ImageName", "MimeType", "ButtonText", "Saying"]
+}
