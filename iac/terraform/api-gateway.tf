@@ -32,6 +32,14 @@ resource "aws_api_gateway_rest_api" "villains-gateway" {
 
 resource "aws_api_gateway_deployment" "default" {
   rest_api_id = aws_api_gateway_rest_api.villains-gateway.id
+
+  triggers = {
+    redeployment = data.archive_file.lambda_function.output_base64sha256
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_api_gateway_stage" "live-stage" {
