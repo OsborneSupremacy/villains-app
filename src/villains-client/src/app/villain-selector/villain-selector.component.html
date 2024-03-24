@@ -10,6 +10,8 @@
     </div>
   </div>
 
+  <input placeholder="Filter by name" class="form-control">
+
 </nav>
 
 <div class="card-deck" >
@@ -21,8 +23,7 @@
     style="width: 18rem;cursor: pointer;display: inline-flex;margin: 10px;"
   >
 
-    <img class="card-img-top" *ngIf="villain.imageLoaded" [src]="villain.base64Image" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
-    <img class="card-img-top" *ngIf="!villain.imageLoaded" src="./assets/images/villain-placeholder.jpeg" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
+    <img class="card-img-top" [src]="getImgSrc(villain.imageName)" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
 
     <!-- front -->
     <div *ngIf="!villain.flipped" class="card-body">

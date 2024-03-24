@@ -54,16 +54,13 @@ export class VillainEditComponent implements OnInit {
         .then(villain => {
             this.villain = villain;
             this.villainFg = this.buildFormGroup();
-            this.imageService.GetImageAsync(villain.imageName)
-              .then(imgResponse => {
-                if (!imgResponse.exists)
-                  return;
-                this.villain!.base64Image = imgResponse.imageSrc;
-                this.villain!.imageLoaded = true;
-              });
           }
         );
     });
+  }
+
+  public getImgSrc(imageName: string): string {
+    return this.imageService.GetImageSource(imageName);
   }
 
   public async onSubmit({value, valid}: { value: Villain, valid: boolean }) {

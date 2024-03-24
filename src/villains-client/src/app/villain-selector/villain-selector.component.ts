@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 import {Villain} from '../models/villain';
 import {VillainService} from '../services/villain.service';
 import {ImageService} from "../services/image.service";
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {ImageGetResponse} from "../models/image-get-response";
 
 @Component({
   selector: 'app-villain-selector',
@@ -25,7 +26,11 @@ export class VillainSelectorComponent {
 
   public villains: Villain[];
 
+  public filteredVillains: Villain[];
+
   public sortOrder: string = 'default';
+
+  public nameFilter: string = '';
 
   setSortOrder(order: string) {
     this.sortOrder = order;
@@ -59,17 +64,18 @@ export class VillainSelectorComponent {
     private router: Router
   ) {
     this.villains = [];
+    this.filteredVillains = [];
     this.populateVillains().then(r => {});
+  }
+
+  public getImgSrc(imageName: string): string {
+    return this.imageService.GetImageSource(imageName);
   }
 
   private async populateVillains() {
     this.villains = await this.villainService.GetAllAsync();
     for (const villain of this.villains) {
-      const imgResponse = await this.imageService.GetImageAsync(villain.imageName);
-      if(!imgResponse.exists)
-        continue;
-      villain.base64Image = imgResponse.imageSrc
-      villain.imageLoaded = true;
+      await this.imageService.CacheImageAsync(villain.imageName);
     }
   }
 }

@@ -8,10 +8,7 @@
         class="card text-white bg-dark mb-3"
         style="width: 18rem;cursor: pointer;display: inline-flex;margin: 10px;"
       >
-        <img class="card-img-top" *ngIf="villain.imageLoaded" [src]="villain.base64Image" alt="{{villain.name}}"
-             style="height: 100%;object-fit:cover;">
-        <img class="card-img-top" *ngIf="!villain.imageLoaded" src="./assets/images/villain-placeholder.jpeg"
-             alt="{{villain.name}}" style="height: 100%;object-fit:cover;">
+        <img class="card-img-top" [src]="getImgSrc(villain.imageName)" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
       </div>
     </div>
 
