@@ -5,7 +5,7 @@ import {Villain} from '../models/villain';
 import {VillainService} from '../services/villain.service';
 import {ImageService} from "../services/image.service";
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {ImageGetResponse} from "../models/image-get-response";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-villain-selector',
@@ -17,7 +17,8 @@ import {ImageGetResponse} from "../models/image-get-response";
     AsyncPipe,
     NgbDropdown,
     NgbDropdownMenu,
-    NgbDropdownToggle
+    NgbDropdownToggle,
+    FormsModule
   ],
   templateUrl: './villain-selector.component.html',
   styleUrl: './villain-selector.component.scss'
@@ -40,10 +41,10 @@ export class VillainSelectorComponent {
   private sortVillains() {
     switch (this.sortOrder) {
       case 'asc':
-        this.villains.sort((a, b) => a.name.localeCompare(b.name));
+        this.filteredVillains.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case 'desc':
-        this.villains.sort((a, b) => b.name.localeCompare(a.name));
+        this.filteredVillains.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
         // sort the villains in the default order
@@ -51,13 +52,20 @@ export class VillainSelectorComponent {
     }
   }
 
+  public filterVillains() {
+    this.filteredVillains = this.villains
+      .filter(villain => villain.name.toLowerCase().includes(this.nameFilter.toLowerCase()));
+  }
+
   public edit(villain: Villain) {
-    this.router.navigate(['/', 'villain', 'edit', villain.id]).then(r => {});
+    this.router.navigate(['/', 'villain', 'edit', villain.id]).then(() => {
+    });
   }
 
   public flip(villain: Villain) {
     villain.flipped = !villain.flipped;
   }
+
   constructor(
     protected villainService: VillainService,
     protected imageService: ImageService,
@@ -65,7 +73,8 @@ export class VillainSelectorComponent {
   ) {
     this.villains = [];
     this.filteredVillains = [];
-    this.populateVillains().then(r => {});
+    this.populateVillains().then(() => {
+    });
   }
 
   public getImgSrc(imageName: string): string {
@@ -74,6 +83,7 @@ export class VillainSelectorComponent {
 
   private async populateVillains() {
     this.villains = await this.villainService.GetAllAsync();
+    this.filteredVillains = this.villains;
     for (const villain of this.villains) {
       await this.imageService.CacheImageAsync(villain.imageName);
     }

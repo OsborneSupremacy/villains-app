@@ -10,7 +10,9 @@
     </div>
   </div>
 
-  <input placeholder="Filter by name" class="form-control">
+  <div class="d-inline-block p-1">
+    <input [(ngModel)]="nameFilter" (input)="filterVillains()" placeholder="Name filter" class="form-control">
+  </div>
 
 </nav>
 
@@ -18,7 +20,7 @@
 
   <div
     (click)="flip(villain)"
-    *ngFor="let villain of villains"
+    *ngFor="let villain of filteredVillains"
     class="card text-white bg-dark mb-3"
     style="width: 18rem;cursor: pointer;display: inline-flex;margin: 10px;"
   >
