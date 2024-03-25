@@ -2,6 +2,8 @@ namespace Villains.Library.Tests.Services;
 
 public class MakeImageSquareServiceTests
 {
+    private const int MaxPayloadBytes = 6291556;
+
     [Fact]
     public void Edit_ImageIsSquare_ReturnsUnmodified()
     {
@@ -17,7 +19,7 @@ public class MakeImageSquareServiceTests
             ModifiedImage = null,
             ModifiedImageStream = null,
             Modified = true,
-            MaxBytes = ImageService.MaxPayloadSize,
+            MaxBytes = MaxPayloadBytes,
             ImageName = "square.png"
         };
 
@@ -45,7 +47,7 @@ public class MakeImageSquareServiceTests
             ModifiedImage = null,
             ModifiedImageStream = null,
             Modified = true,
-            MaxBytes = ImageService.MaxPayloadSize,
+            MaxBytes = MaxPayloadBytes,
             ImageName = "square.png"
         };
 

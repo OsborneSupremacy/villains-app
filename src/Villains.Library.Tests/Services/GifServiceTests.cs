@@ -2,6 +2,8 @@ namespace Villains.Library.Tests.Services;
 
 public class GifServiceTests
 {
+    private const int MaxPayloadBytes = 6291556;
+
     [Fact]
     public async Task Resample_ImageIsUnderMax_Succeeds()
     {
@@ -20,13 +22,13 @@ public class GifServiceTests
                 ModifiedImage = image,
                 ModifiedImageStream = null,
                 Modified = true,
-                MaxBytes = ImageService.MaxPayloadSize,
+                MaxBytes = MaxPayloadBytes,
                 ImageName = "metal-sonic.gif"
             });
 
         // assert
         message.ModifiedImageStream.Should().NotBeNull();
-        message.ModifiedImageStream!.Length.Should().BeLessThan(ImageService.MaxPayloadSize);
+        message.ModifiedImageStream!.Length.Should().BeLessThan(MaxPayloadBytes);
     }
 
     [Fact]
@@ -47,12 +49,12 @@ public class GifServiceTests
                 ModifiedImage = image,
                 ModifiedImageStream = null,
                 Modified = true,
-                MaxBytes = ImageService.MaxPayloadSize,
+                MaxBytes = MaxPayloadBytes,
                 ImageName = "shadow.gif"
             });
 
         // assert
         message.ModifiedImageStream.Should().NotBeNull();
-        message.ModifiedImageStream!.Length.Should().BeLessThan(ImageService.MaxPayloadSize);
+        message.ModifiedImageStream!.Length.Should().BeLessThan(MaxPayloadBytes);
     }
 }

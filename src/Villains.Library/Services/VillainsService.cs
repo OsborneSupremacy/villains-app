@@ -7,6 +7,8 @@ public class VillainsService
 {
     private readonly IAmazonDynamoDB _dynamoDbClient;
 
+    private readonly string _tableName = "TABLE_NAME".GetEnvVar<string>();
+
     public VillainsService(IAmazonDynamoDB dynamoDbClient)
     {
         _dynamoDbClient = dynamoDbClient;
@@ -40,7 +42,7 @@ public class VillainsService
         {
             var response = await _dynamoDbClient.GetItemAsync(new()
             {
-                TableName = "villains",
+                TableName = _tableName,
                 Key = new()
                 {
                     ["id"] = new AttributeValue { S = id }
@@ -69,7 +71,7 @@ public class VillainsService
         {
             await _dynamoDbClient.GetItemAsync(new()
             {
-                TableName = "villains",
+                TableName = _tableName,
                 Key = new()
                 {
                     ["id"] = new AttributeValue { S = id }
@@ -89,7 +91,7 @@ public class VillainsService
 
         var request = new PutItemRequest
         {
-            TableName = "villains",
+            TableName = _tableName,
             Item = new Dictionary<string, AttributeValue>
             {
                 { "id", new AttributeValue {S = id} },
@@ -109,7 +111,7 @@ public class VillainsService
     {
         var request = new UpdateItemRequest
         {
-            TableName = "villains",
+            TableName = _tableName,
             Key = new()
             {
                 ["id"] = new AttributeValue { S = villain.Id }

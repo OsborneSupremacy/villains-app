@@ -6,7 +6,9 @@ public class ImageService
 {
     private readonly IAmazonS3 _s3Client;
 
-    public const int MaxPayloadSize = 6291556;
+    private readonly int _maxPayloadSize = "MAX_PAYLOAD_BYTES".GetEnvVar<int>();
+
+    private readonly string _bucketName = "BUCKET_NAME".GetEnvVar<string>();
 
     public ImageService(IAmazonS3 s3Client)
     {
@@ -32,7 +34,7 @@ public class ImageService
     {
         var request = new GetObjectRequest
         {
-            BucketName = "villains-images",
+            BucketName = _bucketName,
             Key = imageName
         };
 
@@ -45,7 +47,7 @@ public class ImageService
 
             try
             {
-                if (response.ResponseStream.Length > MaxPayloadSize)
+                if (response.ResponseStream.Length > _maxPayloadSize)
                     return NoImageResponse;
             }
             catch (NotSupportedException)
@@ -59,7 +61,7 @@ public class ImageService
                 .ToImgSrcAsync(response.Headers.ContentType, ct);
 
             // ensure that imgSrc is not over 6291556 bytes
-            if (imgSrc.Length > MaxPayloadSize)
+            if (imgSrc.Length > _maxPayloadSize)
                 return NoImageResponse;
 
             return new ImageGetResponse
@@ -122,7 +124,7 @@ public class ImageService
             Modified = false,
             ModifiedImage = null,
             ModifiedImageStream = null,
-            MaxBytes = MaxPayloadSize,
+            MaxBytes = _maxPayloadSize,
             ImageName = imageUploadRequest.FileName
         });
 
@@ -131,7 +133,7 @@ public class ImageService
 
         var request = new PutObjectRequest
         {
-            BucketName = "villains-images",
+            BucketName = _bucketName,
             Key = newFileName,
             InputStream = imageMessage.ModifiedImageStream
                           ?? new MemoryStream(imageBytesResult.Value)
