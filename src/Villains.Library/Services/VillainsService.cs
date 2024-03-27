@@ -20,7 +20,7 @@ public class VillainsService
     {
         var response = await _dynamoDbClient.ScanAsync(new()
         {
-            TableName = "villains"
+            TableName = _tableName
         }, ct);
 
         foreach (var villain in response.Items.Select(item => new Villain
