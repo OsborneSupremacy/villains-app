@@ -1,4 +1,8 @@
-﻿const string message = "Enter [red]confirm[/] to continue upgrade process.";
+﻿using Villains.Library.Extensions;
+
+DotNetEnv.Env.Load();
+
+const string message = "Enter [red]confirm[/] to continue upgrade process.";
 
 AnsiConsole.MarkupLine(message);
 
@@ -9,5 +13,5 @@ while (
     )
     AnsiConsole.MarkupLine(message);
 
-
-Console.Write("HELLO WORLD!");
+AnsiConsole.WriteLine("TABLE_NAME".GetEnvVar<string>());
+AnsiConsole.Write("HELLO WORLD!");

@@ -8,11 +8,23 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="DotNetEnv" Version="3.0.0" />
       <PackageReference Include="Spectre.Console" Version="0.48.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove=".env" />
+      <Content Include=".env">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Villains.Library\Villains.Library.csproj" />
     </ItemGroup>
 
 </Project>
