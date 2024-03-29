@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Library.Tests", "V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.DataUpdater", "Villains.DataUpdater\Villains.DataUpdater.csproj", "{B81FC08C-F9B9-4688-B22A-EC087CCDF94A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Villains.Library.Aws.Tests", "Villains.Library.Aws.Tests\Villains.Library.Aws.Tests.csproj", "{5F12880C-0860-4211-BD6C-E88DFB2A9D25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B81FC08C-F9B9-4688-B22A-EC087CCDF94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B81FC08C-F9B9-4688-B22A-EC087CCDF94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B81FC08C-F9B9-4688-B22A-EC087CCDF94A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F12880C-0860-4211-BD6C-E88DFB2A9D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F12880C-0860-4211-BD6C-E88DFB2A9D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F12880C-0860-4211-BD6C-E88DFB2A9D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F12880C-0860-4211-BD6C-E88DFB2A9D25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

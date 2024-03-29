@@ -11,6 +11,7 @@ export class Villain {
   flipped: boolean;
   base64Image: string;
   imageLoaded: boolean;
+  insertedOn: Date;
 
   constructor(
     id: string,
@@ -19,7 +20,8 @@ export class Villain {
     imageName: string,
     mimeType: string,
     buttonText: string,
-    saying: string
+    saying: string,
+    insertedOn: Date
   ) {
     this.id = id;
     this.name = name;
@@ -31,6 +33,7 @@ export class Villain {
     this.flipped = false;
     this.base64Image = ``;
     this.imageLoaded = false;
+    this.insertedOn = insertedOn;
   }
 }
 // Path: villains-client/src/app/services/villain.service.ts

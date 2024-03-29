@@ -29,27 +29,46 @@ export class VillainSelectorComponent {
 
   public filteredVillains: Villain[];
 
+  public sortField: string = 'insertOn';
+
   public sortOrder: string = 'default';
 
   public nameFilter: string = '';
 
-  setSortOrder(order: string) {
+  setSort(field: string, order: string) {
+    this.sortField = field;
     this.sortOrder = order;
     this.sortVillains();
   }
 
   private sortVillains() {
-    switch (this.sortOrder) {
-      case 'asc':
-        this.filteredVillains.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case 'desc':
-        this.filteredVillains.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      default:
-        // sort the villains in the default order
-        break;
-    }
+    this.filteredVillains.sort((a: Villain, b: Villain) => {
+      let comparison = 0;
+
+      if (this.sortField === 'name') {
+        // Compare by name
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+
+        if (nameA > nameB) {
+          comparison = 1;
+        } else if (nameA < nameB) {
+          comparison = -1;
+        }
+      } else {
+        // Compare by date
+        const dateA = new Date(a.insertedOn);
+        const dateB = new Date(b.insertedOn);
+        comparison = dateA.getTime() - dateB.getTime();
+      }
+
+      // Reverse comparison if sortOrder is 'desc'
+      if (this.sortOrder === 'desc') {
+        comparison *= -1;
+      }
+
+      return comparison;
+    });
   }
 
   public filterVillains() {

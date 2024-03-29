@@ -31,7 +31,8 @@ public class VillainsService
                  ImageName = item["imageName"].S,
                  MimeType = item["imageName"].S.GetMimeType(),
                  ButtonText = item["buttonText"].S,
-                 Saying = item["saying"].S
+                 Saying = item["saying"].S,
+                 InsertedOn = DateTimeOffset.Parse(item["insertedOn"].S)
              }))
             yield return villain;
     }
@@ -57,7 +58,8 @@ public class VillainsService
                 ImageName = response.Item["imageName"].S,
                 MimeType = response.Item["imageName"].S.GetMimeType(),
                 ButtonText = response.Item["buttonText"].S,
-                Saying = response.Item["saying"].S
+                Saying = response.Item["saying"].S,
+                InsertedOn = DateTimeOffset.Parse(response.Item["insertedOn"].S)
             };
         } catch (KeyNotFoundException ex)
         {
@@ -99,7 +101,8 @@ public class VillainsService
                 { "powers", new AttributeValue {S = newVillain.Powers}},
                 { "imageName", new AttributeValue {S = newVillain.ImageName}},
                 { "buttonText", new AttributeValue {S = newVillain.ButtonText}},
-                { "saying", new AttributeValue {S = newVillain.Saying }}
+                { "saying", new AttributeValue {S = newVillain.Saying }},
+                { "insertedOn", new AttributeValue {S = DateTimeOffset.UtcNow.ToString("O")}}
             }
         };
 

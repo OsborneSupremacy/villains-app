@@ -39,6 +39,11 @@ public record Villain
     /// The saying of the villain.
     /// </summary>
     public required string Saying { get; init; }
+
+    /// <summary>
+    /// The date and time the villain was inserted.
+    /// </summary>
+    public required DateTimeOffset InsertedOn { get; init; }
 }
 
 public class VillainValidator : AbstractValidator<Villain>
@@ -51,5 +56,6 @@ public class VillainValidator : AbstractValidator<Villain>
         RuleFor(villain => villain.ImageName).NotEmpty();
         RuleFor(villain => villain.ButtonText).NotEmpty();
         RuleFor(villain => villain.Saying).NotEmpty();
+        RuleFor(villain => villain.InsertedOn).GreaterThanOrEqualTo(DateTimeOffset.UnixEpoch);
     }
 }
