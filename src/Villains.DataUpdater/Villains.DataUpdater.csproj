@@ -8,12 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.302.6" />
       <PackageReference Include="DotNetEnv" Version="3.0.0" />
       <PackageReference Include="Spectre.Console" Version="0.48.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Services\" />
     </ItemGroup>
 
     <ItemGroup>

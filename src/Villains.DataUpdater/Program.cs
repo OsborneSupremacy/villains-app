@@ -1,4 +1,5 @@
-﻿using Villains.Library.Extensions;
+﻿using Villains.DataUpdater.Migrations;
+using Villains.Library.Extensions;
 
 DotNetEnv.Env.Load();
 
@@ -13,5 +14,7 @@ while (
     )
     AnsiConsole.MarkupLine(message);
 
-AnsiConsole.WriteLine("TABLE_NAME".GetEnvVar<string>());
-AnsiConsole.Write("HELLO WORLD!");
+CancellationToken ct = new();
+
+var migration = new AddInsertedOn();
+await migration.ExecuteAsync(ct);
