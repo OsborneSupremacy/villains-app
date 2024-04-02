@@ -22,7 +22,7 @@ export class VillainEditComponent implements OnInit {
 
   public villainFg: FormGroup;
 
-  villain: Villain | undefined;
+  public villain: Villain | undefined;
 
   imageFileName: string = '';
   replaceImage: boolean = false;

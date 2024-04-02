@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 import {Villain} from '../models/villain';
 import {VillainService} from '../services/villain.service';
 import {ImageService} from "../services/image.service";
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {VillainDisplayComponent} from "../villain-display/villain-display.component";
 
 @Component({
   selector: 'app-villain-selector',
@@ -18,7 +18,8 @@ import {FormsModule} from "@angular/forms";
     NgbDropdown,
     NgbDropdownMenu,
     NgbDropdownToggle,
-    FormsModule
+    FormsModule,
+    VillainDisplayComponent
   ],
   templateUrl: './villain-selector.component.html',
   styleUrl: './villain-selector.component.scss'
@@ -35,10 +36,15 @@ export class VillainSelectorComponent {
 
   public nameFilter: string = '';
 
-  setSort(field: string, order: string) {
-    this.sortField = field;
-    this.sortOrder = order;
-    this.sortVillains();
+  constructor(
+    protected villainService: VillainService,
+    protected imageService: ImageService
+
+  ) {
+    this.villains = [];
+    this.filteredVillains = [];
+    this.populateVillains().then(() => {
+    });
   }
 
   private sortVillains() {
@@ -71,33 +77,15 @@ export class VillainSelectorComponent {
     });
   }
 
+  setSort(field: string, order: string) {
+    this.sortField = field;
+    this.sortOrder = order;
+    this.sortVillains();
+  }
+
   public filterVillains() {
     this.filteredVillains = this.villains
       .filter(villain => villain.name.toLowerCase().includes(this.nameFilter.toLowerCase()));
-  }
-
-  public edit(villain: Villain) {
-    this.router.navigate(['/', 'villain', 'edit', villain.id]).then(() => {
-    });
-  }
-
-  public flip(villain: Villain) {
-    villain.flipped = !villain.flipped;
-  }
-
-  constructor(
-    protected villainService: VillainService,
-    protected imageService: ImageService,
-    private router: Router
-  ) {
-    this.villains = [];
-    this.filteredVillains = [];
-    this.populateVillains().then(() => {
-    });
-  }
-
-  public getImgSrc(imageName: string): string {
-    return this.imageService.GetImageSource(imageName);
   }
 
   private async populateVillains() {

@@ -1,0 +1,28 @@
+<div
+  (click)="flip()"
+  class="card text-white bg-dark mb-3"
+  style="width: 18rem;cursor: pointer;display: inline-flex;margin: 10px;"
+>
+  <img class="card-img-top" [src]="getImgSrc(villain.imageName)" alt="{{villain.name}}" style="height: 100%;object-fit:cover;" >
+
+  <!-- front -->
+  <div *ngIf="!villain.flipped" class="card-body">
+    <h5 class="card-title">{{villain.name}}</h5>
+    <p class="card-text text-danger">Will destroy you with <b>{{villain.powers}}</b></p>
+    <blockquote class="blockquote text-center">
+      <p class="mb-0">"{{villain.buttonText}}"</p>
+    </blockquote>
+  </div>
+
+  <!-- back -->
+  <div *ngIf="villain.flipped" class="card-body">
+    <blockquote class="blockquote text-center">
+      <p class="mb-0">"{{villain.buttonText}}</p>
+      <p class="mb-0 text-danger">{{villain.saying}}"</p>
+    </blockquote>
+    <p class="card-text">
+      <button class="btn btn-sm btn-secondary" (click)="edit()">Edit</button>
+    </p>
+  </div>
+
+</div><!--villain repeat-->
