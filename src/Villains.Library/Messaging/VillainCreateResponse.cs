@@ -1,6 +1,6 @@
 namespace Villains.Library.Messaging;
 
-public record VillainCreateResponse
+internal record VillainCreateResponse
 {
     /// <summary>
     /// The ID of the newly-created villain.

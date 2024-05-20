@@ -5,7 +5,7 @@ using Villains.Library.Abstractions;
 
 namespace Villains.Library.Services;
 
-internal class GifService : ImageFormatService
+internal class GifService : IImageFormatService
 {
     private static readonly List<int> PercentOriginals = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 5];
 

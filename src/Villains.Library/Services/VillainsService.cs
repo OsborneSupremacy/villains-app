@@ -24,16 +24,16 @@ public class VillainsService
         }, ct);
 
         foreach (var villain in response.Items.Select(item => new Villain
-             {
-                 Id = item["id"].S,
-                 Name = item["name"].S,
-                 Powers = item["powers"].S,
-                 ImageName = item["imageName"].S,
-                 MimeType = item["imageName"].S.GetMimeType(),
-                 ButtonText = item["buttonText"].S,
-                 Saying = item["saying"].S,
-                 InsertedOn = DateTimeOffset.Parse(item["insertedOn"].S)
-             }))
+        {
+            Id = item["id"].S,
+            Name = item["name"].S,
+            Powers = item["powers"].S,
+            ImageName = item["imageName"].S,
+            MimeType = item["imageName"].S.GetMimeType(),
+            ButtonText = item["buttonText"].S,
+            Saying = item["saying"].S,
+            InsertedOn = DateTimeOffset.Parse(item["insertedOn"].S)
+        }))
             yield return villain;
     }
 

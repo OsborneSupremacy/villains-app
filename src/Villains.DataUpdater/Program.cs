@@ -1,5 +1,4 @@
 ﻿using Villains.DataUpdater.Migrations;
-using Villains.Library.Extensions;
 
 DotNetEnv.Env.Load();
 

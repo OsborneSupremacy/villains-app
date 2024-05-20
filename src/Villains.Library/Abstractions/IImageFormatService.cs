@@ -1,6 +1,6 @@
 namespace Villains.Library.Abstractions;
 
-internal interface ImageFormatService
+internal interface IImageFormatService
 {
     ImageProcessMessage Resample(ImageProcessMessage request);
 }
